@@ -3,32 +3,49 @@ A social media simple thumbnails generator
 
 # Command Examples
 
-To create a new thumbnail:
+
+Help command:
 ```bash
-thumbnails-generator create -t title -o output filename
+thumbnails-generator --help
+usage: thumbnails-generator [-h] {create,delete,generate,templates} ...
+
+positional arguments:
+  {create,delete,generate,templates}
+    create              Create a new template
+    delete              Delete a template
+    generate            Generate a thumbnail
+    templates           List all templates
+
+options:
+  -h, --help            show this help message and exit
 ```
 
-To set background color:
+Create a template:
 ```bash
-thumbnails-generator set background-color=#FFFFFF
+thumbnails-generator create \ 
+--name template-name \
+--size 1280x720 \
+--background-color #FFFFFF \
+--color #000000 \
+--font-family /path/to/font.ttf
+```
+* Only name is required
+
+Use a template:
+```bash
+thumbnails-generator generate \ 
+--template-name template-name \
+--title title on the thumbnail \
+--output /path/to/output/folder
+```
+* Only template-name and title are required
+
+To remove a template:
+```bash
+thumbnails-generator delete --name template-name
 ```
 
-To set font color:
+To list all templates:
 ```bash
-thumbnails-generator set color=#000000
-```
-
-To set a font:
-```bash
-thumbnails-generator set family-font=/path/to/font.ttf
-```
-
-to unset a variable:
-```bash
-thumbnails-generator unset variable-name
-```
-
-To list all variables:
-```bash
-thumbnails-generator list
+thumbnails-generator templates
 ```

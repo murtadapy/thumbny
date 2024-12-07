@@ -4,5 +4,5 @@ from abc import abstractmethod
 
 class CommandBase(ABC):
     @abstractmethod
-    def execute() -> None:
+    def execute(*args) -> None:
         raise NotImplementedError()
