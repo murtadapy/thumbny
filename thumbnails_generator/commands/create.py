@@ -4,9 +4,14 @@ from typing import List
 import os
 import sys
 import json
+import re
 
 from thumbnails_generator.abstracts import CommandBase
 from thumbnails_generator.exceptions import TemplateExist
+from thumbnails_generator.exceptions import NotValidColor
+
+
+HEX_REGEX = r'^#[0-9a-fA-F]{6}$'
 
 
 class Create(CommandBase):
@@ -15,14 +20,14 @@ class Create(CommandBase):
                  name: str,
                  width: Optional[str],
                  height: Optional[str],
-                 background: Optional[str],
-                 color: Optional[str],
+                 background_color: Optional[str],
+                 font_color: Optional[str],
                  font: Optional[str]) -> None:
         self.name = name
         self.width = width
         self.height = height
-        self.background = background
-        self.color = color
+        self.background_color = background_color
+        self.font_color = font_color
         self.font = font
 
         self.templates_path = os.path.join(sys.path[0],
@@ -47,8 +52,8 @@ class Create(CommandBase):
             "name": self.name,
             "width": self.width,
             "height": self.height,
-            "background": self.background,
-            "color": self.color,
+            "background_color": self.background_color,
+            "font_color": self.font_color,
             "font": self.font
         }
 
@@ -56,6 +61,14 @@ class Create(CommandBase):
         with open(path, "w") as f:
             json.dump(config, f, indent=4)
 
+    def _validate(self) -> None:
+        if not re.match(HEX_REGEX, self.background_color):
+            raise NotValidColor("Not a valid background color")
+
+        if not re.match(HEX_REGEX, self.font_color):
+            raise NotValidColor("Not a valid font color")
+
     def execute(self) -> None:
+        self._validate()
         self._create_folder()
         self._create_config()

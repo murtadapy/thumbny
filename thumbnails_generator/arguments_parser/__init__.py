@@ -33,11 +33,11 @@ class Parser:
                             default=720,
                             help="Height of template")
 
-        parser.add_argument("--background",
+        parser.add_argument("--background-color",
                             default="#FFFFFF",
                             help="Background color e.g. #FFFFFF")
 
-        parser.add_argument("--color",
+        parser.add_argument("--font-color",
                             default="#000000",
                             help="Font color e.g. #000000")
 
