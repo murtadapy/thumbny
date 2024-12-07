@@ -5,12 +5,9 @@ from typing import List
 import os
 import sys
 
+from thumbnails_generator.models import Template
 from thumbnails_generator.templates_manager.file_handler import FileHandler
 from thumbnails_generator.templates_manager.validator import Validator
-
-from thumbnails_generator.exceptions import TemplateExist
-from thumbnails_generator.exceptions import FontNotFound
-from thumbnails_generator.exceptions import FontExtensionError
 
 
 class TemplateManager:
@@ -24,8 +21,8 @@ class TemplateManager:
                                            "thumbnails_generator",
                                            "templates")
 
-        self.file_handler = FileHandler(self.templates_path)
-        self.validtor = Validator(self.templates_path)
+        self.file_handler = FileHandler(self, self.templates_path)
+        self.validtor = Validator(self, self.templates_path)
 
     def create(self,
                *,
@@ -36,27 +33,19 @@ class TemplateManager:
                font_color: str,
                font_size: str,
                font_family: str) -> None:
-        if name in self.get_all_templates():
-            raise TemplateExist(f"{name} template is already exist")
-
-        if font_family and not os.path.isfile(font_family):
-            raise FontNotFound("Font is not found")
-
-        if font_family and not font_family.endswith("ttf"):
-            raise FontExtensionError("Only ttf extension is supported")
+        self.validtor.validate_tempalte_name(name)
+        self.validtor.validate_font_family(font_family)
 
         template_Path = self.file_handler.create_template_structure(name)
         font_path = self.file_handler.copy_font(font_family, template_Path)
 
-        config = {
-            "name": name,
-            "width": width,
-            "height": height,
-            "background_color": background_color,
-            "font_color": font_color,
-            "font_size": font_size,
-            "font_family": font_path
-        }
+        config = Template(name=name,
+                          width=width,
+                          height=height,
+                          background_color=background_color,
+                          font_color=font_color,
+                          font_size=font_size,
+                          font_family=font_path)
 
         self.file_handler.save_config(template_Path, config)
 

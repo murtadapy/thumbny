@@ -16,5 +16,5 @@ class FontNotFound(Exception):
     ...
 
 
-class FontExtensionError(Exception):
+class NotValidFontExtension(Exception):
     ...

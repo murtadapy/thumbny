@@ -1,14 +1,23 @@
+from typing import TYPE_CHECKING
 from typing import List
 
 import os
 import shutil
 import json
+from dataclasses import asdict
 
+from thumbnails_generator.models import Template
 from thumbnails_generator.exceptions import TemplateNotExist
+
+if TYPE_CHECKING:
+    from thumbnails_generator.templates_manager import TemplateManager
 
 
 class FileHandler:
-    def __init__(self, templates_path: str) -> None:
+    def __init__(self,
+                 template_manager: "TemplateManager",
+                 templates_path: str) -> None:
+        self.template_manager = template_manager
         self.templates_path = templates_path
 
     def create_template_structure(self, name: str) -> str:
@@ -23,10 +32,10 @@ class FileHandler:
         shutil.copyfile(font_family, font_path)
         return font_path
 
-    def save_config(self, template_path: str, config: dict) -> None:
+    def save_config(self, template_path: str, config: Template) -> None:
         config_path = os.path.join(template_path, "config.json")
         with open(config_path, "w") as f:
-            json.dump(config, f, indent=4)
+            json.dump(asdict(config), f, indent=4)
 
     def delete_template(self, name: str) -> None:
         try:

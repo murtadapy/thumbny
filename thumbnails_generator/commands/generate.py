@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from dataclasses import dataclass
+from thumbnails_generator.models import Template
 
 from thumbnails_generator.templates_manager import TemplateManager
 from thumbnails_generator.abstracts import CommandBase
@@ -8,17 +8,6 @@ from thumbnails_generator.abstracts import CommandBase
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-
-
-@dataclass
-class Template:
-    name: str
-    width: str
-    height: int
-    background_color: Tuple[int]
-    font_color: Tuple[int]
-    font_size: int
-    font_family: str
 
 
 class Generate(CommandBase):
