@@ -20,6 +20,10 @@ class FileHandler:
         self.template_manager = template_manager
         self.templates_path = templates_path
 
+    def create_template_dir(self, templates_path: str) -> None:
+        if not os.path.exists(templates_path):
+            os.makedirs(templates_path)
+
     def create_template_structure(self, name: str) -> str:
         template_path = os.path.join(self.templates_path, name)
         os.mkdir(template_path)
@@ -45,6 +49,9 @@ class FileHandler:
             raise TemplateNotExist(f"{name} template does not exist")
 
     def get_all_templates(self) -> List[str]:
+        if not os.path.exists(self.templates_path):
+            return []
+
         return [element for element in os.listdir(self.templates_path)
                 if os.path.isdir(os.path.join(self.templates_path, element))]
 

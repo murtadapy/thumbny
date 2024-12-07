@@ -36,6 +36,7 @@ class TemplateManager:
         self.validtor.validate_tempalte_name(name)
         self.validtor.validate_font_family(font_family)
 
+        self.file_handler.create_template_dir(self.templates_path)
         template_Path = self.file_handler.create_template_structure(name)
         font_path = self.file_handler.copy_font(font_family, template_Path)
 
