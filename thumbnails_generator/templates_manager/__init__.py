@@ -4,11 +4,11 @@ from typing import List
 
 import os
 import sys
-import json
-import shutil
+
+from thumbnails_generator.templates_manager.file_handler import FileHandler
+from thumbnails_generator.templates_manager.validator import Validator
 
 from thumbnails_generator.exceptions import TemplateExist
-from thumbnails_generator.exceptions import TemplateNotExist
 from thumbnails_generator.exceptions import FontNotFound
 from thumbnails_generator.exceptions import FontExtensionError
 
@@ -23,6 +23,9 @@ class TemplateManager:
         self.templates_path = os.path.join(sys.path[0],
                                            "thumbnails_generator",
                                            "templates")
+
+        self.file_handler = FileHandler(self.templates_path)
+        self.validtor = Validator(self.templates_path)
 
     def create(self,
                *,
@@ -42,17 +45,8 @@ class TemplateManager:
         if font_family and not font_family.endswith("ttf"):
             raise FontExtensionError("Only ttf extension is supported")
 
-        template_path = os.path.join(self.templates_path, name)
-        os.mkdir(template_path)
-
-        assets_path = os.path.join(template_path, "assets")
-        os.mkdir(assets_path)
-
-        fonts_path = os.path.join(assets_path, "fonts")
-        os.mkdir(fonts_path)
-
-        font_path = os.path.join(fonts_path, "font.ttf")
-        shutil.copyfile(font_family, font_path)
+        template_Path = self.file_handler.create_template_structure(name)
+        font_path = self.file_handler.copy_font(font_family, template_Path)
 
         config = {
             "name": name,
@@ -64,31 +58,13 @@ class TemplateManager:
             "font_family": font_path
         }
 
-        config_path = os.path.join(template_path, "config.json")
-        with open(config_path, "w") as f:
-            json.dump(config, f, indent=4)
+        self.file_handler.save_config(template_Path, config)
 
     def delete(self, name: str) -> None:
-        try:
-            path = os.path.join(self.templates_path, name)
-            shutil.rmtree(path)
-        except FileNotFoundError:
-            raise TemplateNotExist(f"{name} template is not exist")
+        self.file_handler.delete_template(name)
 
     def get_all_templates(self) -> List[str]:
-        templates = []
-        for element in os.listdir(self.templates_path):
-            if os.path.isdir(os.path.join(self.templates_path, element)):
-                templates.append(element)
-        return templates
+        return self.file_handler.get_all_templates()
 
     def get_template_info(self, name: str) -> dict:
-        path = os.path.join(self.templates_path, name, "config.json")
-
-        if not os.path.isfile(path):
-            raise TemplateNotExist(f"{name} template is not exist")
-
-        with open(path) as f:
-            details = json.load(f)
-
-        return details
+        return self.file_handler.get_template_info(name)
