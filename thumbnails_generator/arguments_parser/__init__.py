@@ -25,27 +25,31 @@ class Parser:
                             required=True,
                             help="Name of the template")
 
-        parser.add_argument("--size",
-                            default="1280x720",
-                            help="Size of the template e.g. 1280x720")
+        parser.add_argument("--width",
+                            default=1280,
+                            help="Width of template")
+
+        parser.add_argument("--height",
+                            default=720,
+                            help="Height of template")
 
         parser.add_argument("--background",
                             default="#FFFFFF",
                             help="Background color e.g. #FFFFFF")
 
         parser.add_argument("--color",
-                            default="000000",
+                            default="#000000",
                             help="Font color e.g. #000000")
 
         parser.add_argument("--font",
-                            default="",
+                            default="arial",
                             help="Path to ttf file")
 
     def _get_delete_parser(self, subparser: _SubParsersAction) -> None:
         parser: AP = subparser.add_parser("delete",
                                           help="Delete a template")
 
-        parser.add_argument("--template-name",
+        parser.add_argument("--name",
                             required=True,
                             help="Thumbnail template name")
 
@@ -69,7 +73,11 @@ class Parser:
         subparser.add_parser("templates", help="List all templates")
 
     def _execute(self, args: Namespace) -> None:
-        COMMANDS.get(args.command).execute(args)
+        command_ref = COMMANDS.get(args.command)
+        arguments = dict(args._get_kwargs())
+        arguments.pop("command")
+        command = command_ref(**arguments)
+        command.execute()
 
     def parse(self) -> None:
         parser = argparse.ArgumentParser()

@@ -1,4 +1,4 @@
-from ppaste.abstracts.command_base import CommandBase
+from thumbnails_generator.abstracts.command_base import CommandBase
 
 
 __all__ = [

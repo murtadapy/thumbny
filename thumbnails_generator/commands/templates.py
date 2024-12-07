@@ -1,9 +1,11 @@
 from argparse import Namespace
 
-from ppaste.abstracts import CommandBase
+from thumbnails_generator.abstracts import CommandBase
 
 
 class Templates(CommandBase):
-    @staticmethod
-    def execute(args: Namespace):
-        print(args)
+    def __init__(self, args: Namespace) -> None:
+        ...
+
+    def execute() -> None:
+        ...
