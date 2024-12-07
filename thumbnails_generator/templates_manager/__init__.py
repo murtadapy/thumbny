@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
 from typing import List
 
 import os
@@ -10,6 +9,8 @@ import shutil
 
 from thumbnails_generator.exceptions import TemplateExist
 from thumbnails_generator.exceptions import TemplateNotExist
+from thumbnails_generator.exceptions import FontNotFound
+from thumbnails_generator.exceptions import FontExtensionError
 
 
 class TemplateManager:
@@ -26,13 +27,20 @@ class TemplateManager:
     def create(self,
                *,
                name: str,
-               width: Optional[str],
-               height: Optional[str],
-               background_color: Optional[str],
-               font_color: Optional[str],
-               font: Optional[str]) -> None:
+               width: str,
+               height: str,
+               background_color: str,
+               font_color: str,
+               font_path: str) -> None:
+
         if name in self.get_all_templates():
             raise TemplateExist(f"{name} template is already exist")
+
+        if font_path and not os.path.isfile(font_path):
+            raise FontNotFound("Font is not found")
+
+        if font_path and not font_path.endswith("ttf"):
+            raise FontExtensionError("Only ttf extension is supported")
 
         template_path = os.path.join(self.templates_path, name)
         os.mkdir(template_path)
@@ -43,7 +51,7 @@ class TemplateManager:
             "height": height,
             "background_color": background_color,
             "font_color": font_color,
-            "font": font
+            "font_path": font_path
         }
 
         config_path = os.path.join(template_path, "config.json")

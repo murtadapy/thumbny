@@ -1,5 +1,3 @@
-import os
-import sys
 import re
 
 from thumbnails_generator.templates_manager import TemplateManager
@@ -17,17 +15,13 @@ class Create(CommandBase):
                  height: str,
                  background_color: str,
                  font_color: str,
-                 font: str) -> None:
+                 font_path: str) -> None:
         self.name = name
         self.width = width
         self.height = height
         self.background_color = background_color
         self.font_color = font_color
-        self.font = font
-
-        self.templates_path = os.path.join(sys.path[0],
-                                           "thumbnails_generator",
-                                           "templates")
+        self.font_path = font_path
 
         self.template_manager = TemplateManager()
 
@@ -45,5 +39,5 @@ class Create(CommandBase):
                                      height=self.height,
                                      background_color=self.background_color,
                                      font_color=self.font_color,
-                                     font=self.font)
+                                     font_path=self.font_path)
         print(f"{self.name} template has been created successfully")

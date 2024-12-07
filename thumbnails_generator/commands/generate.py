@@ -7,6 +7,7 @@ from thumbnails_generator.abstracts import CommandBase
 
 from PIL import Image
 from PIL import ImageDraw
+from PIL import ImageFont
 
 
 @dataclass
@@ -16,7 +17,7 @@ class Template:
     height: int
     background_color: Tuple[int]
     font_color: Tuple[int]
-    font: str
+    font_path: str
 
 
 class Generate(CommandBase):
@@ -51,7 +52,7 @@ class Generate(CommandBase):
                         height=template.get("height"),
                         background_color=background_color,
                         font_color=font_color,
-                        font=template.get("font"))
+                        font_path=template.get("font_path"))
 
     def execute(self) -> None:
         filename = self._get_filename()
@@ -63,7 +64,25 @@ class Generate(CommandBase):
 
         draw = ImageDraw.Draw(image)
 
-        draw.text(xy=(0, 0), text=self.title)
+        if template.font_path:
+            try:
+                font = ImageFont.truetype(template.font_path, size=99)
+            except Exception:
+                print(f"Font wasn't found at {template.font_path}")
+        else:
+            font = ImageFont.load_default(size=99)
+
+        text_width = draw.textlength(self.title, font=font)
+        text_height = 99
+
+        text_x = (template.width - text_width) / 2
+        text_y = (template.height - text_height) / 2
+
+        draw.text(xy=(text_x, text_y),
+                  text=self.title,
+                  fill=template.font_color,
+                  font=font,
+                  )
 
         image.save(f"{filename}.png")
         image.show()

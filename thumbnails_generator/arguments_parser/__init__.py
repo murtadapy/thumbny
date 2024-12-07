@@ -43,8 +43,8 @@ class Parser:
                             default="#000000",
                             help="Font color e.g. #000000")
 
-        parser.add_argument("--font",
-                            default="arial",
+        parser.add_argument("--font_path",
+                            default="",
                             help="Path to ttf file")
 
     def _get_delete_parser(self, subparser: _SubParsersAction) -> None:
