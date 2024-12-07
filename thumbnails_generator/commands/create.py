@@ -1,4 +1,3 @@
-from typing import Optional
 import os
 import sys
 import re
@@ -13,13 +12,12 @@ HEX_REGEX = r'^#[0-9a-fA-F]{6}$'
 
 class Create(CommandBase):
     def __init__(self,
-                 *,
                  name: str,
-                 width: Optional[str],
-                 height: Optional[str],
-                 background_color: Optional[str],
-                 font_color: Optional[str],
-                 font: Optional[str]) -> None:
+                 width: str,
+                 height: str,
+                 background_color: str,
+                 font_color: str,
+                 font: str) -> None:
         self.name = name
         self.width = width
         self.height = height
