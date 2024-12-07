@@ -1,13 +1,10 @@
 from typing import Optional
-from typing import List
-
 import os
 import sys
-import json
 import re
 
+from thumbnails_generator.templates_manager import TemplateManager
 from thumbnails_generator.abstracts import CommandBase
-from thumbnails_generator.exceptions import TemplateExist
 from thumbnails_generator.exceptions import NotValidColor
 
 
@@ -34,32 +31,7 @@ class Create(CommandBase):
                                            "thumbnails_generator",
                                            "templates")
 
-        self.template_path = os.path.join(self.templates_path,
-                                          self.name)
-
-    def _get_all_templates(self) -> List[str]:
-        return os.listdir(self.templates_path)
-
-    def _create_folder(self) -> None:
-        if self.name in self._get_all_templates():
-            raise TemplateExist(f"Template {self.name} is already exist")
-
-        path = os.path.join(self.template_path)
-        os.mkdir(path)
-
-    def _create_config(self) -> None:
-        config = {
-            "name": self.name,
-            "width": self.width,
-            "height": self.height,
-            "background_color": self.background_color,
-            "font_color": self.font_color,
-            "font": self.font
-        }
-
-        path = os.path.join(self.template_path, "config.json")
-        with open(path, "w") as f:
-            json.dump(config, f, indent=4)
+        self.template_manager = TemplateManager()
 
     def _validate(self) -> None:
         if not re.match(HEX_REGEX, self.background_color):
@@ -70,5 +42,10 @@ class Create(CommandBase):
 
     def execute(self) -> None:
         self._validate()
-        self._create_folder()
-        self._create_config()
+        self.template_manager.create(name=self.name,
+                                     width=self.width,
+                                     height=self.height,
+                                     background_color=self.background_color,
+                                     font_color=self.font_color,
+                                     font=self.font)
+        print(f"{self.name} template has been created successfully")

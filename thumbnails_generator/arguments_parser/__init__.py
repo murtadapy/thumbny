@@ -6,12 +6,14 @@ from argparse import Namespace
 from thumbnails_generator.commands import Create
 from thumbnails_generator.commands import Delete
 from thumbnails_generator.commands import Generate
+from thumbnails_generator.commands import Info
 from thumbnails_generator.commands import Templates
 
 
 COMMANDS = {"create": Create,
             "delete": Delete,
             "generate": Generate,
+            "info": Info,
             "templates": Templates,
             }
 
@@ -51,7 +53,7 @@ class Parser:
 
         parser.add_argument("--name",
                             required=True,
-                            help="Thumbnail template name")
+                            help="Template name")
 
     def _get_generate_parser(self, subparser: _SubParsersAction) -> None:
         parser: AP = subparser.add_parser("generate",
@@ -69,6 +71,13 @@ class Parser:
                             default="",
                             help="Output path")
 
+    def _get_info_parser(self, subparser: _SubParsersAction) -> None:
+        parser: AP = subparser.add_parser("info", help="Info of a template")
+
+        parser.add_argument("--name",
+                            required=True,
+                            help="Template name")
+
     def _get_templates_parser(self, subparser: _SubParsersAction) -> None:
         subparser.add_parser("templates", help="List all templates")
 
@@ -85,6 +94,7 @@ class Parser:
         self._get_create_parser(subparser)
         self._get_delete_parser(subparser)
         self._get_generate_parser(subparser)
+        self._get_info_parser(subparser)
         self._get_templates_parser(subparser)
         args = parser.parse_args()
         self._execute(args)
