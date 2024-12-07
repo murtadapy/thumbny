@@ -28,10 +28,12 @@ class Parser:
                             help="Name of the template")
 
         parser.add_argument("--width",
+                            type=int,
                             default=1280,
                             help="Width of template")
 
         parser.add_argument("--height",
+                            type=int,
                             default=720,
                             help="Height of template")
 
@@ -43,7 +45,12 @@ class Parser:
                             default="#000000",
                             help="Font color e.g. #000000")
 
-        parser.add_argument("--font_path",
+        parser.add_argument("--font-size",
+                            type=int,
+                            default=32,
+                            help="Font size")
+
+        parser.add_argument("--font-family",
                             default="",
                             help="Path to ttf file")
 

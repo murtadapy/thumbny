@@ -31,19 +31,28 @@ class TemplateManager:
                height: str,
                background_color: str,
                font_color: str,
-               font_path: str) -> None:
-
+               font_size: str,
+               font_family: str) -> None:
         if name in self.get_all_templates():
             raise TemplateExist(f"{name} template is already exist")
 
-        if font_path and not os.path.isfile(font_path):
+        if font_family and not os.path.isfile(font_family):
             raise FontNotFound("Font is not found")
 
-        if font_path and not font_path.endswith("ttf"):
+        if font_family and not font_family.endswith("ttf"):
             raise FontExtensionError("Only ttf extension is supported")
 
         template_path = os.path.join(self.templates_path, name)
         os.mkdir(template_path)
+
+        assets_path = os.path.join(template_path, "assets")
+        os.mkdir(assets_path)
+
+        fonts_path = os.path.join(assets_path, "fonts")
+        os.mkdir(fonts_path)
+
+        font_path = os.path.join(fonts_path, "font.ttf")
+        shutil.copyfile(font_family, font_path)
 
         config = {
             "name": name,
@@ -51,7 +60,8 @@ class TemplateManager:
             "height": height,
             "background_color": background_color,
             "font_color": font_color,
-            "font_path": font_path
+            "font_size": font_size,
+            "font_family": font_path
         }
 
         config_path = os.path.join(template_path, "config.json")

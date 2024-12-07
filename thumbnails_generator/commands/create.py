@@ -15,13 +15,15 @@ class Create(CommandBase):
                  height: str,
                  background_color: str,
                  font_color: str,
-                 font_path: str) -> None:
+                 font_size: int,
+                 font_family: str) -> None:
         self.name = name
         self.width = width
         self.height = height
         self.background_color = background_color
         self.font_color = font_color
-        self.font_path = font_path
+        self.font_size = font_size
+        self.font_family = font_family
 
         self.template_manager = TemplateManager()
 
@@ -39,5 +41,6 @@ class Create(CommandBase):
                                      height=self.height,
                                      background_color=self.background_color,
                                      font_color=self.font_color,
-                                     font_path=self.font_path)
+                                     font_size=self.font_size,
+                                     font_family=self.font_family)
         print(f"{self.name} template has been created successfully")

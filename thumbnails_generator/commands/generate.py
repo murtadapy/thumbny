@@ -17,7 +17,8 @@ class Template:
     height: int
     background_color: Tuple[int]
     font_color: Tuple[int]
-    font_path: str
+    font_size: int
+    font_family: str
 
 
 class Generate(CommandBase):
@@ -52,7 +53,8 @@ class Generate(CommandBase):
                         height=template.get("height"),
                         background_color=background_color,
                         font_color=font_color,
-                        font_path=template.get("font_path"))
+                        font_size=template.get("font_size"),
+                        font_family=template.get("font_family"))
 
     def execute(self) -> None:
         filename = self._get_filename()
@@ -64,16 +66,17 @@ class Generate(CommandBase):
 
         draw = ImageDraw.Draw(image)
 
-        if template.font_path:
+        if template.font_family:
             try:
-                font = ImageFont.truetype(template.font_path, size=99)
-            except Exception:
-                print(f"Font wasn't found at {template.font_path}")
+                font = ImageFont.truetype(template.font_family,
+                                          size=template.font_size)
+            except OSError:
+                print(f"Font wasn't found at {template.font_family}")
         else:
-            font = ImageFont.load_default(size=99)
+            font = ImageFont.load_default(size=template.font_size)
 
         text_width = draw.textlength(self.title, font=font)
-        text_height = 99
+        text_height = template.font_size
 
         text_x = (template.width - text_width) / 2
         text_y = (template.height - text_height) / 2
@@ -81,8 +84,7 @@ class Generate(CommandBase):
         draw.text(xy=(text_x, text_y),
                   text=self.title,
                   fill=template.font_color,
-                  font=font,
-                  )
+                  font=font)
 
         image.save(f"{filename}.png")
         image.show()
