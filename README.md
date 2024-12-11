@@ -1,5 +1,5 @@
-# Thumbnails Generator
-A social media simple thumbnails generator
+# Thumbny
+A social media simple thumbnails creator
 
 # Command Examples
 

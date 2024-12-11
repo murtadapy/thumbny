@@ -1,4 +1,4 @@
-from thumbnails_generator.arguments_parser import Parser
+from thumbny.arguments_parser import Parser
 
 
 def main() -> None:

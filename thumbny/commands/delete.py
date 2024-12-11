@@ -1,5 +1,5 @@
-from thumbnails_generator.templates_manager import TemplateManager
-from thumbnails_generator.abstracts import CommandBase
+from thumbny.templates_manager import TemplateManager
+from thumbny.abstracts import CommandBase
 
 
 class Delete(CommandBase):

@@ -6,11 +6,11 @@ import shutil
 import json
 from dataclasses import asdict
 
-from thumbnails_generator.models import Template
-from thumbnails_generator.exceptions import TemplateNotExist
+from thumbny.models import Template
+from thumbny.exceptions import TemplateNotExist
 
 if TYPE_CHECKING:
-    from thumbnails_generator.templates_manager import TemplateManager
+    from thumbny.templates_manager import TemplateManager
 
 
 class FileHandler:

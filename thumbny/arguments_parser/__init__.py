@@ -3,11 +3,11 @@ from argparse import ArgumentParser as AP
 from argparse import _SubParsersAction
 from argparse import Namespace
 
-from thumbnails_generator.commands import Create
-from thumbnails_generator.commands import Delete
-from thumbnails_generator.commands import Generate
-from thumbnails_generator.commands import Info
-from thumbnails_generator.commands import Templates
+from thumbny.commands import Create
+from thumbny.commands import Delete
+from thumbny.commands import Generate
+from thumbny.commands import Info
+from thumbny.commands import Templates
 
 
 COMMANDS = {"create": Create,

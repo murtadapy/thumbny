@@ -1,8 +1,8 @@
 import re
 
-from thumbnails_generator.templates_manager import TemplateManager
-from thumbnails_generator.abstracts import CommandBase
-from thumbnails_generator.exceptions import NotValidColor
+from thumbny.templates_manager import TemplateManager
+from thumbny.abstracts import CommandBase
+from thumbny.exceptions import NotValidColor
 
 
 HEX_REGEX = r'^#[0-9a-fA-F]{6}$'

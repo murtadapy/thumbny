@@ -2,13 +2,13 @@ from typing import TYPE_CHECKING
 
 import os
 
-from thumbnails_generator.exceptions import TemplateExist
-from thumbnails_generator.exceptions import FontNotFound
-from thumbnails_generator.exceptions import NotValidFontExtension
+from thumbny.exceptions import TemplateExist
+from thumbny.exceptions import FontNotFound
+from thumbny.exceptions import NotValidFontExtension
 
 
 if TYPE_CHECKING:
-    from thumbnails_generator.templates_manager import TemplateManager
+    from thumbny.templates_manager import TemplateManager
 
 
 class Validator:

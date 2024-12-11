@@ -1,9 +1,9 @@
 from typing import Tuple
 
-from thumbnails_generator.models import Template
+from thumbny.models import Template
 
-from thumbnails_generator.templates_manager import TemplateManager
-from thumbnails_generator.abstracts import CommandBase
+from thumbny.templates_manager import TemplateManager
+from thumbny.abstracts import CommandBase
 
 from PIL import Image
 from PIL import ImageDraw

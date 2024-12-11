@@ -5,9 +5,9 @@ from typing import List
 import os
 import sys
 
-from thumbnails_generator.models import Template
-from thumbnails_generator.templates_manager.file_handler import FileHandler
-from thumbnails_generator.templates_manager.validator import Validator
+from thumbny.models import Template
+from thumbny.templates_manager.file_handler import FileHandler
+from thumbny.templates_manager.validator import Validator
 
 
 class TemplateManager:
