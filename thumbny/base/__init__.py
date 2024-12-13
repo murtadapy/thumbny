@@ -1,5 +1,5 @@
-from thumbny.base.command_base import CommandBase
-from thumbny.base.runner_base import RunnerBase
+from thumbny.base.command import CommandBase
+from thumbny.base.runner import RunnerBase
 
 
 __all__ = [

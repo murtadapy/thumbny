@@ -2,7 +2,7 @@ from thumbny.templates_manager import TemplateManager
 from thumbny.base import CommandBase
 
 
-class Delete(CommandBase):
+class DeleteCommand(CommandBase):
     def __init__(self,
                  name: str) -> None:
         self.name = name

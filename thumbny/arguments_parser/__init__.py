@@ -3,7 +3,7 @@ from argparse import ArgumentParser as AP
 from argparse import _SubParsersAction
 from argparse import Namespace
 
-from thumbny.base import runner_base
+from thumbny.base import runner
 from thumbny.arguments_parser.create import CreateRunner
 from thumbny.arguments_parser.delete import DeleteRunner
 from thumbny.arguments_parser.generate import GenerateRunner
@@ -53,7 +53,7 @@ class Parser:
     def _execute(self, args: Namespace) -> None:
         command_ref = COMMANDS.get(args.command)
         arguments = dict(args._get_kwargs())
-        command: runner_base = command_ref(json_string=arguments.get("data"))
+        command: runner = command_ref(json_string=arguments.get("data"))
         command.execute()
 
     def parse(self) -> None:

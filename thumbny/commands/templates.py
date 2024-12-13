@@ -2,7 +2,7 @@ from thumbny.templates_manager import TemplateManager
 from thumbny.base import CommandBase
 
 
-class Templates(CommandBase):
+class TemplatesCommand(CommandBase):
     def __init__(self) -> None:
         self.template_manager = TemplateManager()
 

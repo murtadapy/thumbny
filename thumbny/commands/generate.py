@@ -10,7 +10,7 @@ from PIL import ImageDraw
 from PIL import ImageFont
 
 
-class Generate(CommandBase):
+class GenerateCommand(CommandBase):
     def __init__(self,
                  template_name: str,
                  title: str,

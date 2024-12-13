@@ -1,13 +1,13 @@
-from thumbny.commands.create import Create
-from thumbny.commands.delete import Delete
-from thumbny.commands.generate import Generate
-from thumbny.commands.templates import Templates
-from thumbny.commands.info import Info
+from thumbny.commands.create import CreateCommand
+from thumbny.commands.delete import DeleteCommand
+from thumbny.commands.generate import GenerateCommand
+from thumbny.commands.templates import TemplatesCommand
+from thumbny.commands.info import InfoCommand
 
 __all__ = [
-    "Create",
-    "Delete",
-    "Generate",
-    "Info",
-    "Templates",
+    "CreateCommand",
+    "DeleteCommand",
+    "GenerateCommand",
+    "InfoCommand",
+    "TemplatesCommand",
 ]

@@ -4,15 +4,16 @@ from dataclasses import dataclass
 
 
 @dataclass
-class KeyValue:
+class TagCreateModel:
     key: str
     value: str
 
 
 @dataclass
-class Text:
+class LabelCreateModel:
+    key: str
     content: str
-    position: KeyValue
+    position: TagCreateModel
     alignment: str
     font_color: str
     font_size: str
@@ -21,8 +22,9 @@ class Text:
 
 @dataclass
 class CreateModel:
+    key: str
     name: str
     width: str
     height: int
     background_color: str
-    text: List[Text]
+    text: List[LabelCreateModel]

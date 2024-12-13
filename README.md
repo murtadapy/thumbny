@@ -29,7 +29,7 @@ thumbnails-generator create \
     "width": 1280,
     "height": 720,
     "background-color": "#ffffff",
-    "text": [
+    "labeles": [
         {
             "key": "title"
             "content": "Sample",
@@ -49,8 +49,7 @@ thumbnails-generator create \
 Use a template:
 ```bash
 thumbnails-generator generate \
-'
-{
+'{
   "template_key": "youtube",
   "text": [
     {

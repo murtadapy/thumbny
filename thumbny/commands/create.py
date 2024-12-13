@@ -9,7 +9,7 @@ from thumbny.models import CreateModel
 HEX_REGEX = r'^#[0-9a-fA-F]{6}$'
 
 
-class Create(CommandBase):
+class CreateCommand(CommandBase):
     def __init__(self, model: CreateModel) -> None:
         self.model = model
         self.template_manager = TemplateManager()
