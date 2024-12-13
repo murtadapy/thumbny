@@ -22,27 +22,49 @@ options:
 
 Create a template:
 ```bash
-thumbnails-generator create \ 
---name template-name \
---size 1280x720 \
---background-color #FFFFFF \
---color #000000 \
---font-family /path/to/font.ttf
+thumbnails-generator create \
+'{
+    "key": "youtube",
+    "name": "sample thumbnail",
+    "width": 1280,
+    "height": 720,
+    "background-color": "#ffffff",
+    "text": [
+        {
+            "key": "title"
+            "content": "Sample",
+            "position": {
+                "key": "relative|fixed",
+                "value": "top-center|x,y"
+            },
+            "alignment": "center",
+            "font-color": "#333333",
+            "font-size": "36",
+            "font-family": "Arial"
+        }
+    ]
+}'
 ```
-* Only name is required
 
 Use a template:
 ```bash
-thumbnails-generator generate \ 
---template-name template-name \
---title title on the thumbnail \
---output /path/to/output/folder
+thumbnails-generator generate \
+'
+{
+  "template_key": "youtube",
+  "text": [
+    {
+      "key": "title",
+      "value": "Hello YouTube"
+    }
+  ]
+}
+'
 ```
-* Only template-name and title are required
 
 To remove a template:
 ```bash
-thumbnails-generator delete --name template-name
+thumbnails-generator delete '{"name": "template-name"}'
 ```
 
 To list all templates:
