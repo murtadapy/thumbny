@@ -1,5 +1,5 @@
 from thumbny.templates_manager import TemplateManager
-from thumbny.abstracts import CommandBase
+from thumbny.base import CommandBase
 
 
 class Templates(CommandBase):

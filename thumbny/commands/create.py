@@ -1,30 +1,17 @@
 import re
 
 from thumbny.templates_manager import TemplateManager
-from thumbny.abstracts import CommandBase
+from thumbny.base import CommandBase
 from thumbny.exceptions import NotValidColor
+from thumbny.models import CreateModel
 
 
 HEX_REGEX = r'^#[0-9a-fA-F]{6}$'
 
 
 class Create(CommandBase):
-    def __init__(self,
-                 name: str,
-                 width: str,
-                 height: str,
-                 background_color: str,
-                 font_color: str,
-                 font_size: int,
-                 font_family: str) -> None:
-        self.name = name
-        self.width = width
-        self.height = height
-        self.background_color = background_color
-        self.font_color = font_color
-        self.font_size = font_size
-        self.font_family = font_family
-
+    def __init__(self, model: CreateModel) -> None:
+        self.model = model
         self.template_manager = TemplateManager()
 
     def _validate(self) -> None:
@@ -35,7 +22,6 @@ class Create(CommandBase):
             raise NotValidColor("Not a valid font color")
 
     def execute(self) -> None:
-        self._validate()
         self.template_manager.create(name=self.name,
                                      width=self.width,
                                      height=self.height,

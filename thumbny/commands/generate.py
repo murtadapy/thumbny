@@ -1,9 +1,9 @@
 from typing import Tuple
 
-from thumbny.models import Template
+from thumbny.models import TemplateModel
 
 from thumbny.templates_manager import TemplateManager
-from thumbny.abstracts import CommandBase
+from thumbny.base import CommandBase
 
 from PIL import Image
 from PIL import ImageDraw
@@ -28,7 +28,7 @@ class Generate(CommandBase):
     def _get_filename(self) -> str:
         return self.title.replace(" ", "_")
 
-    def _get_template(self) -> Template:
+    def _get_template(self) -> TemplateModel:
         template = self.template_manager.get_template_info(self.template_name)
 
         background_color = template.get("background_color")
@@ -37,13 +37,13 @@ class Generate(CommandBase):
         font_color = template.get("font_color")
         font_color = self._hex_to_rgb(font_color)
 
-        return Template(name=template.get("name"),
-                        width=template.get("width"),
-                        height=template.get("height"),
-                        background_color=background_color,
-                        font_color=font_color,
-                        font_size=template.get("font_size"),
-                        font_family=template.get("font_family"))
+        return TemplateModel(name=template.get("name"),
+                             width=template.get("width"),
+                             height=template.get("height"),
+                             background_color=background_color,
+                             font_color=font_color,
+                             font_size=template.get("font_size"),
+                             font_family=template.get("font_family"))
 
     def execute(self) -> None:
         filename = self._get_filename()

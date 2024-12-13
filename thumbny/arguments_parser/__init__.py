@@ -9,6 +9,8 @@ from thumbny.commands import Generate
 from thumbny.commands import Info
 from thumbny.commands import Templates
 
+from thumbny.arguments_parser.create import CreateRunner
+
 
 COMMANDS = {"create": Create,
             "delete": Delete,
@@ -19,73 +21,34 @@ COMMANDS = {"create": Create,
 
 
 class Parser:
-    def _get_create_parser(self, subparser: _SubParsersAction) -> None:
+    def _register_create(self, subparser: _SubParsersAction) -> None:
         parser: AP = subparser.add_parser("create",
                                           help="Create a new template")
 
-        parser.add_argument("-n", "--name",
-                            required=True,
-                            help="Name of the template")
+        parser.add_argument("-d", "--data",
+                            help="json data")
 
-        parser.add_argument("--width",
-                            type=int,
-                            default=1280,
-                            help="Width of template")
-
-        parser.add_argument("--height",
-                            type=int,
-                            default=720,
-                            help="Height of template")
-
-        parser.add_argument("--background-color",
-                            default="#FFFFFF",
-                            help="Background color e.g. #FFFFFF")
-
-        parser.add_argument("--font-color",
-                            default="#000000",
-                            help="Font color e.g. #000000")
-
-        parser.add_argument("--font-size",
-                            type=int,
-                            default=32,
-                            help="Font size")
-
-        parser.add_argument("--font-family",
-                            default="",
-                            help="Path to ttf file")
-
-    def _get_delete_parser(self, subparser: _SubParsersAction) -> None:
+    def _register_delete(self, subparser: _SubParsersAction) -> None:
         parser: AP = subparser.add_parser("delete",
                                           help="Delete a template")
 
-        parser.add_argument("--name",
-                            required=True,
-                            help="Template name")
+        parser.add_argument("-d", "--data",
+                            help="json data")
 
-    def _get_generate_parser(self, subparser: _SubParsersAction) -> None:
+    def _register_generate(self, subparser: _SubParsersAction) -> None:
         parser: AP = subparser.add_parser("generate",
                                           help="Generate a thumbnail")
 
-        parser.add_argument("--template-name",
-                            required=True,
-                            help="Thumbnail template name")
+        parser.add_argument("-d", "--data",
+                            help="json data")
 
-        parser.add_argument("--title",
-                            required=True,
-                            help="Thumbnail title")
-
-        parser.add_argument("--output",
-                            default="",
-                            help="Output path")
-
-    def _get_info_parser(self, subparser: _SubParsersAction) -> None:
+    def _register_info(self, subparser: _SubParsersAction) -> None:
         parser: AP = subparser.add_parser("info", help="Info of a template")
 
-        parser.add_argument("--name",
-                            required=True,
-                            help="Template name")
+        parser.add_argument("-d", "--data",
+                            help="json data")
 
-    def _get_templates_parser(self, subparser: _SubParsersAction) -> None:
+    def _register_templates(self, subparser: _SubParsersAction) -> None:
         subparser.add_parser("templates", help="List all templates")
 
     def _execute(self, args: Namespace) -> None:
@@ -98,10 +61,10 @@ class Parser:
     def parse(self) -> None:
         parser = argparse.ArgumentParser()
         subparser = parser.add_subparsers(dest="command", required=True)
-        self._get_create_parser(subparser)
-        self._get_delete_parser(subparser)
-        self._get_generate_parser(subparser)
-        self._get_info_parser(subparser)
-        self._get_templates_parser(subparser)
+        self._register_create(subparser)
+        self._register_delete(subparser)
+        self._register_generate(subparser)
+        self._register_info(subparser)
+        self._register_templates(subparser)
         args = parser.parse_args()
         self._execute(args)

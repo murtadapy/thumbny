@@ -6,7 +6,7 @@ import shutil
 import json
 from dataclasses import asdict
 
-from thumbny.models import Template
+from thumbny.models import TemplateModel
 from thumbny.exceptions import TemplateNotExist
 
 if TYPE_CHECKING:
@@ -36,7 +36,7 @@ class FileHandler:
         shutil.copyfile(font_family, font_path)
         return font_path
 
-    def save_config(self, template_path: str, config: Template) -> None:
+    def save_config(self, template_path: str, config: TemplateModel) -> None:
         config_path = os.path.join(template_path, "config.json")
         with open(config_path, "w") as f:
             json.dump(asdict(config), f, indent=4)

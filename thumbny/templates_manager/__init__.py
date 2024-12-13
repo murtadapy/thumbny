@@ -5,7 +5,7 @@ from typing import List
 import os
 import sys
 
-from thumbny.models import Template
+from thumbny.models import TemplateModel
 from thumbny.templates_manager.file_handler import FileHandler
 from thumbny.templates_manager.validator import Validator
 
@@ -40,13 +40,13 @@ class TemplateManager:
         template_Path = self.file_handler.create_template_structure(name)
         font_path = self.file_handler.copy_font(font_family, template_Path)
 
-        config = Template(name=name,
-                          width=width,
-                          height=height,
-                          background_color=background_color,
-                          font_color=font_color,
-                          font_size=font_size,
-                          font_family=font_path)
+        config = TemplateModel(name=name,
+                               width=width,
+                               height=height,
+                               background_color=background_color,
+                               font_color=font_color,
+                               font_size=font_size,
+                               font_family=font_path)
 
         self.file_handler.save_config(template_Path, config)
 
