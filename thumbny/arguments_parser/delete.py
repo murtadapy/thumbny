@@ -1,6 +1,7 @@
 from typing import Optional
 
 from thumbny.base import RunnerBase
+from thumbny.commands import Delete
 
 
 class DeleteRunner(RunnerBase):
