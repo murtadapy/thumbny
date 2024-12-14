@@ -27,4 +27,4 @@ class CreateModel:
     width: str
     height: int
     background_color: str
-    text: List[LabelCreateModel]
+    labels: List[LabelCreateModel]

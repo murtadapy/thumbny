@@ -5,7 +5,7 @@ from typing import List
 import os
 import sys
 
-from thumbny.models import TemplateModel
+from thumbny.models import CreateModel
 from thumbny.templates_manager.file_handler import FileHandler
 from thumbny.templates_manager.validator import Validator
 
@@ -24,31 +24,14 @@ class TemplateManager:
         self.file_handler = FileHandler(self, self.templates_path)
         self.validtor = Validator(self, self.templates_path)
 
-    def create(self,
-               *,
-               name: str,
-               width: str,
-               height: str,
-               background_color: str,
-               font_color: str,
-               font_size: str,
-               font_family: str) -> None:
-        self.validtor.validate_tempalte_name(name)
-        self.validtor.validate_font_family(font_family)
+    def create(self, model: CreateModel) -> None:
+        self.validtor.validate_tempalate_key(model.key)
+        self.validtor.validate_font_family(model.font_family)
 
         self.file_handler.create_template_dir(self.templates_path)
-        template_Path = self.file_handler.create_template_structure(name)
-        font_path = self.file_handler.copy_font(font_family, template_Path)
-
-        config = TemplateModel(name=name,
-                               width=width,
-                               height=height,
-                               background_color=background_color,
-                               font_color=font_color,
-                               font_size=font_size,
-                               font_family=font_path)
-
-        self.file_handler.save_config(template_Path, config)
+        template_Path = self.file_handler.create_template_structure(model.name)
+        self.file_handler.copy_fonts(model, template_Path)
+        self.file_handler.save_config(template_Path, model)
 
     def delete(self, name: str) -> None:
         self.file_handler.delete_template(name)

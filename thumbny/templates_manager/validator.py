@@ -18,7 +18,7 @@ class Validator:
         self.template_manager = template_manager
         self.templates_path = templates_path
 
-    def validate_tempalte_name(self, name: str) -> None:
+    def validate_tempalate_key(self, name: str) -> None:
         if name in self.template_manager.get_all_templates():
             raise TemplateExist(f"{name} template already exists")
 

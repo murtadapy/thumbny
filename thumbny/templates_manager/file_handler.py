@@ -2,15 +2,19 @@ from typing import TYPE_CHECKING
 from typing import List
 
 import os
-import shutil
+import re
 import json
+import shutil
 from dataclasses import asdict
 
-from thumbny.models import TemplateModel
+from thumbny.models import CreateModel
 from thumbny.exceptions import TemplateNotExist
 
 if TYPE_CHECKING:
     from thumbny.templates_manager import TemplateManager
+
+
+FILE_NAME_REGEX = r'[^\\|^/]+$'
 
 
 class FileHandler:
@@ -31,12 +35,17 @@ class FileHandler:
         os.mkdir(os.path.join(template_path, "assets", "fonts"))
         return template_path
 
-    def copy_font(self, font_family: str, template_path: str) -> None:
-        font_path = os.path.join(template_path, "assets", "fonts", "font.ttf")
-        shutil.copyfile(font_family, font_path)
-        return font_path
+    def copy_fonts(self, model: CreateModel, template_path: str) -> None:
+        for label in model.labels:
+            font_name = re.search(FILE_NAME_REGEX, label.font_family).group(0)
+            font_path = os.path.join(template_path,
+                                     "assets",
+                                     "fonts",
+                                     font_name)
+            shutil.copyfile(label.font_family, font_path)
+            label.font_family = font_path
 
-    def save_config(self, template_path: str, config: TemplateModel) -> None:
+    def save_config(self, template_path: str, config: CreateModel) -> None:
         config_path = os.path.join(template_path, "config.json")
         with open(config_path, "w") as f:
             json.dump(asdict(config), f, indent=4)

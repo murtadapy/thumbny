@@ -14,7 +14,7 @@ class CreateRunner(RunnerBase):
     def build(self, json_dict: dict) -> CreateModel:
         labels = []
 
-        for label in json_dict.get("labeles"):
+        for label in json_dict.get("labeles", []):
             position = TagCreateModel(key=label.get("key"),
                                       value=label.get("value"))
 
@@ -36,4 +36,5 @@ class CreateRunner(RunnerBase):
                            labels=labels)
 
     def execute(self) -> None:
-        return CreateCommand(self.model)
+        command = CreateCommand(self.model)
+        command.execute()
