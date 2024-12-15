@@ -13,7 +13,6 @@ class CreateCommand(CommandBase):
         super().__init__(model)
 
     def validate(self):
-
         if self.model.background_color:
             if re.match(HEX_REGEX, self.model.background_color):
                 raise NotValidColor("Not a valid background color")
