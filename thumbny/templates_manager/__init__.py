@@ -5,7 +5,7 @@ from typing import List
 import os
 import sys
 
-from thumbny.models import CreateModel
+from thumbny.models import TemplateModel
 from thumbny.templates_manager.file_handler import FileHandler
 from thumbny.templates_manager.validator import Validator
 
@@ -24,7 +24,7 @@ class TemplateManager:
         self.file_handler = FileHandler(self, self.templates_path)
         self.validtor = Validator(self, self.templates_path)
 
-    def create(self, model: CreateModel) -> None:
+    def create(self, model: TemplateModel) -> None:
         self.validtor.validate_tempalate_key(model.key)
         # TODO: Validate font family of each label
 

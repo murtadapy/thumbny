@@ -2,25 +2,17 @@ from typing import List
 from typing import Optional
 from dataclasses import dataclass
 
+from thumbny.models.shared import TagModel
 from thumbny.models.validation import check_required_fields
 from thumbny.models.validation import check_spaces
 from thumbny.models.validation import check_hex_color
 
 
 @dataclass
-class TagCreateModel:
-    key: str
-    value: str
-
-    def __post_init__(self):
-        check_required_fields(self)
-
-
-@dataclass
-class LabelCreateModel:
+class LabelModel:
     key: str
     content: str
-    position: TagCreateModel
+    position: TagModel
     alignment: Optional[str]
     font_color: str
     font_size: int
@@ -31,13 +23,13 @@ class LabelCreateModel:
 
 
 @dataclass
-class CreateModel:
+class TemplateModel:
     key: str
     name: str
     width: int
     height: int
     background_color: str
-    labels: List[LabelCreateModel]
+    labels: List[LabelModel]
 
     def __post_init__(self):
         check_required_fields(self)

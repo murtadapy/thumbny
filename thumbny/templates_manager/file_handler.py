@@ -7,7 +7,7 @@ import json
 import shutil
 from dataclasses import asdict
 
-from thumbny.models import CreateModel
+from thumbny.models import TemplateModel
 from thumbny.exceptions import TemplateNotExist
 
 if TYPE_CHECKING:
@@ -35,7 +35,7 @@ class FileHandler:
         os.mkdir(os.path.join(template_path, "assets", "fonts"))
         return template_path
 
-    def copy_fonts(self, model: CreateModel, template_path: str) -> None:
+    def copy_fonts(self, model: TemplateModel, template_path: str) -> None:
         for label in model.labels:
             if label.font_family:
                 font_name = re.search(FILE_NAME_REGEX,
@@ -49,7 +49,7 @@ class FileHandler:
                 shutil.copyfile(label.font_family, font_path)
                 label.font_family = font_path
 
-    def save_config(self, config: CreateModel, template_path: str) -> None:
+    def save_config(self, config: TemplateModel, template_path: str) -> None:
         config_path = os.path.join(template_path, "config.json")
         with open(config_path, "w") as f:
             json.dump(asdict(config), f, indent=4)

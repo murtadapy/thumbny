@@ -3,7 +3,7 @@ from typing import Tuple
 from thumbny.models import TemplateModel
 
 from thumbny.base import CommandBase
-from thumbny.models import GenerateModel
+from thumbny.models import FillerModel
 
 
 from PIL import Image
@@ -12,7 +12,7 @@ from PIL import ImageFont
 
 
 class GenerateCommand(CommandBase):
-    def __init__(self, model: GenerateModel) -> None:
+    def __init__(self, model: FillerModel) -> None:
         super().__init__(model)
 
     def _hex_to_rgb(self, hex_color: str) -> Tuple[int]:

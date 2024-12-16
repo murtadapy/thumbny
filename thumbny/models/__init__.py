@@ -1,16 +1,13 @@
 
-from .create import CreateModel
-from .create import LabelCreateModel
-from .create import TagCreateModel
-
-from .generate import GenerateModel
-from .generate import TagGenerateModel
+from .template import TemplateModel
+from .template import LabelModel
+from .shared import TagModel
+from .filler import FillerModel
 
 
 __all__ = [
-    "CreateModel",
-    "LabelCreateModel",
-    "TagCreateModel",
-    "GenerateModel",
-    "TagGenerateModel",
+    "TemplateModel",
+    "LabelModel",
+    "TagModel",
+    "FillerModel",
 ]

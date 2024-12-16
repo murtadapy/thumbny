@@ -1,10 +1,10 @@
 
 from thumbny.base import CommandBase
-from thumbny.models import CreateModel
+from thumbny.models import TemplateModel
 
 
 class CreateCommand(CommandBase):
-    def __init__(self, model: CreateModel):
+    def __init__(self, model: TemplateModel):
         super().__init__(model)
 
     def execute(self):

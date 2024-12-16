@@ -2,23 +2,23 @@ from typing import Optional
 
 from thumbny.base import RunnerBase
 from thumbny.commands import CreateCommand
-from thumbny.models import TagCreateModel
-from thumbny.models import LabelCreateModel
-from thumbny.models import CreateModel
+from thumbny.models import TagModel
+from thumbny.models import LabelModel
+from thumbny.models import TemplateModel
 
 
 class CreateRunner(RunnerBase):
     def __init__(self, json_string: Optional[str] = None) -> None:
         super().__init__(json_string)
 
-    def build(self, json_dict: dict) -> CreateModel:
+    def build(self, json_dict: dict) -> TemplateModel:
         labels = []
 
         for label in json_dict.get("labeles", []):
-            position = TagCreateModel(key=label.get("position", "key"),
+            position = TagModel(key=label.get("position", "key"),
                                       value=label.get("position", "value"))
 
-            label = LabelCreateModel(key=label.get("key"),
+            label = LabelModel(key=label.get("key"),
                                      content=label.get("content"),
                                      position=position,
                                      alignment=label.get("alignment"),
@@ -27,7 +27,7 @@ class CreateRunner(RunnerBase):
                                      font_family=label.get("font-family"))
             labels.append(label)
 
-        return CreateModel(key=json_dict.get("key"),
+        return TemplateModel(key=json_dict.get("key"),
                            name=json_dict.get("name"),
                            width=json_dict.get("width"),
                            height=json_dict.get("height"),
