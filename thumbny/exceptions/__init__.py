@@ -8,10 +8,6 @@ class TemplateNotExist(Exception):
     ...
 
 
-class NotValidColor(Exception):
-    ...
-
-
 class FontNotFound(Exception):
     ...
 
