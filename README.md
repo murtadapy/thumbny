@@ -6,8 +6,8 @@ A social media simple thumbnails creator
 
 Help command:
 ```bash
-thumbnails-generator --help
-usage: thumbnails-generator [-h] {create,delete,generate,templates} ...
+thumbny --help
+usage: thumbny [-h] {create,delete,generate,templates} ...
 
 positional arguments:
   {create,delete,generate,templates}
@@ -22,7 +22,7 @@ options:
 
 Create a template:
 ```bash
-thumbnails-generator create \
+thumbny create \
 '{
     "key": "youtube",
     "name": "sample thumbnail",
@@ -48,7 +48,7 @@ thumbnails-generator create \
 
 Use a template:
 ```bash
-thumbnails-generator generate \
+thumbny generate \
 '{
   "template_key": "youtube",
   "text": [
@@ -63,10 +63,10 @@ thumbnails-generator generate \
 
 To remove a template:
 ```bash
-thumbnails-generator delete '{"name": "template-name"}'
+thumbny delete '{"name": "template-name"}'
 ```
 
 To list all templates:
 ```bash
-thumbnails-generator templates
+thumbny templates
 ```
