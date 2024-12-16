@@ -22,7 +22,7 @@ options:
 
 Create a template:
 ```bash
-thumbny create \
+thumbny create -d \
 '{
     "key": "youtube",
     "name": "sample thumbnail",
@@ -31,11 +31,11 @@ thumbny create \
     "background-color": "#ffffff",
     "labeles": [
         {
-            "key": "title"
+            "key": "title",
             "content": "Sample",
             "position": {
-                "key": "relative|fixed",
-                "value": "top-center|x,y"
+                "key": "relative",
+                "value": "top-center"
             },
             "alignment": "center",
             "font-color": "#333333",
@@ -48,7 +48,7 @@ thumbny create \
 
 Use a template:
 ```bash
-thumbny generate \
+thumbny generate -d \
 '{
   "template_key": "youtube",
   "text": [
@@ -57,13 +57,12 @@ thumbny generate \
       "value": "Hello YouTube"
     }
   ]
-}
-'
+}'
 ```
 
 To remove a template:
 ```bash
-thumbny delete '{"name": "template-name"}'
+thumbny delete -d '{"name": "template-name"}'
 ```
 
 To list all templates:

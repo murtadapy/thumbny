@@ -15,23 +15,23 @@ class CreateRunner(RunnerBase):
         labels = []
 
         for label in json_dict.get("labeles", []):
-            position = TagCreateModel(key=label.get("key"),
-                                      value=label.get("value"))
+            position = TagCreateModel(key=label.get("position", "key"),
+                                      value=label.get("position", "value"))
 
             label = LabelCreateModel(key=label.get("key"),
                                      content=label.get("content"),
                                      position=position,
                                      alignment=label.get("alignment"),
-                                     font_color=label.get("font_color"),
-                                     font_size=label.get("font_size"),
-                                     font_family=label.get("font_family"))
+                                     font_color=label.get("font-color"),
+                                     font_size=label.get("font-size"),
+                                     font_family=label.get("font-family"))
             labels.append(label)
 
         return CreateModel(key=json_dict.get("key"),
                            name=json_dict.get("name"),
                            width=json_dict.get("width"),
                            height=json_dict.get("height"),
-                           background_color=json_dict.get("background_color"),
+                           background_color=json_dict.get("background-color"),
                            labels=labels)
 
     def execute(self) -> None:

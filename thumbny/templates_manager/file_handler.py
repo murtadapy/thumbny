@@ -37,13 +37,17 @@ class FileHandler:
 
     def copy_fonts(self, model: CreateModel, template_path: str) -> None:
         for label in model.labels:
-            font_name = re.search(FILE_NAME_REGEX, label.font_family).group(0)
-            font_path = os.path.join(template_path,
-                                     "assets",
-                                     "fonts",
-                                     font_name)
-            shutil.copyfile(label.font_family, font_path)
-            label.font_family = font_path
+            if label.font_family:
+                font_name = re.search(FILE_NAME_REGEX,
+                                      label.font_family).group(0)
+
+                font_path = os.path.join(template_path,
+                                         "assets",
+                                         "fonts",
+                                         font_name)
+
+                shutil.copyfile(label.font_family, font_path)
+                label.font_family = font_path
 
     def save_config(self, config: CreateModel, template_path: str) -> None:
         config_path = os.path.join(template_path, "config.json")
