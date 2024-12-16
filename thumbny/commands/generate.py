@@ -2,8 +2,9 @@ from typing import Tuple
 
 from thumbny.models import TemplateModel
 
-from thumbny.templates_manager import TemplateManager
 from thumbny.base import CommandBase
+from thumbny.models import GenerateModel
+
 
 from PIL import Image
 from PIL import ImageDraw
@@ -11,15 +12,8 @@ from PIL import ImageFont
 
 
 class GenerateCommand(CommandBase):
-    def __init__(self,
-                 template_name: str,
-                 title: str,
-                 output: str) -> None:
-        self.template_name = template_name
-        self.title = title
-        self.output = output
-
-        self.template_manager = TemplateManager()
+    def __init__(self, model: GenerateModel) -> None:
+        super().__init__(model)
 
     def _hex_to_rgb(self, hex_color: str) -> Tuple[int]:
         hex_color = hex_color.lstrip('#')

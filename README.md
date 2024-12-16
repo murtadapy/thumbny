@@ -51,7 +51,7 @@ Use a template:
 thumbny generate -d \
 '{
   "template_key": "youtube",
-  "text": [
+  "labels": [
     {
       "key": "title",
       "value": "Hello YouTube"
