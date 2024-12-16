@@ -24,8 +24,7 @@ class CreateRunner(RunnerBase):
                                      alignment=label.get("alignment"),
                                      font_color=label.get("font_color"),
                                      font_size=label.get("font_size"),
-                                     font_family=label.get("font_family"),
-                                     )
+                                     font_family=label.get("font_family"))
             labels.append(label)
 
         return CreateModel(key=json_dict.get("key"),

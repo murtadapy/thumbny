@@ -18,7 +18,7 @@ class TemplateManager:
 
     def __init__(self) -> None:
         self.templates_path = os.path.join(sys.path[0],
-                                           "thumbnails_generator",
+                                           "thumny-templates",
                                            "templates")
 
         self.file_handler = FileHandler(self, self.templates_path)
@@ -26,12 +26,12 @@ class TemplateManager:
 
     def create(self, model: CreateModel) -> None:
         self.validtor.validate_tempalate_key(model.key)
-        self.validtor.validate_font_family(model.font_family)
+        # TODO: Validate font family of each label
 
         self.file_handler.create_template_dir(self.templates_path)
-        template_Path = self.file_handler.create_template_structure(model.name)
+        template_Path = self.file_handler.create_template_structure(model.key)
         self.file_handler.copy_fonts(model, template_Path)
-        self.file_handler.save_config(template_Path, model)
+        self.file_handler.save_config(model, template_Path)
 
     def delete(self, name: str) -> None:
         self.file_handler.delete_template(name)

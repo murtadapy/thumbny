@@ -28,8 +28,8 @@ class FileHandler:
         if not os.path.exists(templates_path):
             os.makedirs(templates_path)
 
-    def create_template_structure(self, name: str) -> str:
-        template_path = os.path.join(self.templates_path, name)
+    def create_template_structure(self, key: str) -> str:
+        template_path = os.path.join(self.templates_path, key)
         os.mkdir(template_path)
         os.mkdir(os.path.join(template_path, "assets"))
         os.mkdir(os.path.join(template_path, "assets", "fonts"))
@@ -45,7 +45,7 @@ class FileHandler:
             shutil.copyfile(label.font_family, font_path)
             label.font_family = font_path
 
-    def save_config(self, template_path: str, config: CreateModel) -> None:
+    def save_config(self, config: CreateModel, template_path: str) -> None:
         config_path = os.path.join(template_path, "config.json")
         with open(config_path, "w") as f:
             json.dump(asdict(config), f, indent=4)
