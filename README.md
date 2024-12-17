@@ -39,8 +39,7 @@ thumbny create -d \
             },
             "alignment": "center",
             "font-color": "#333333",
-            "font-size": "36",
-            "font-family": "Arial"
+            "font-size": "36"
         }
     ]
 }'
@@ -50,6 +49,7 @@ Use a template:
 ```bash
 thumbny generate -d \
 '{
+  "name": "Test",
   "template_key": "youtube",
   "labels": [
     {

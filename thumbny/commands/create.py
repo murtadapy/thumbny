@@ -5,7 +5,8 @@ from thumbny.models import TemplateModel
 
 class CreateCommand(CommandBase):
     def __init__(self, model: TemplateModel):
-        super().__init__(model)
+        super().__init__()
+        self.model = model
 
     def execute(self):
         self.tm.create(self.model)

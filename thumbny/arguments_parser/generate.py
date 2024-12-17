@@ -14,11 +14,12 @@ class GenerateRunner(RunnerBase):
         labels = []
         for label in json_dict.get("labels", []):
             labels.append(TagModel(key=label.get("key"),
-                                           value=label.get("value")))
+                                   value=label.get("value")))
 
-        return FillerModel(template_key=json_dict.get("template_key"),
-                             labels=labels)
+        return FillerModel(name=json_dict.get("name"),
+                           template_key=json_dict.get("template_key"),
+                           labels=labels)
 
     def execute(self) -> None:
-        command = GenerateCommand()
+        command = GenerateCommand(self.model)
         command.execute()

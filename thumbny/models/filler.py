@@ -7,6 +7,7 @@ from thumbny.models.validation import check_required_fields
 
 @dataclass
 class FillerModel:
+    name: str
     template_key: str
     labels: List[TagModel]
 
