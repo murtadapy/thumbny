@@ -1,5 +1,3 @@
-from typing import Optional
-
 from thumbny.templates_manager import TemplateManager
 
 

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Dict
+from typing import Any
 from typing import List
 
 import os
@@ -26,8 +28,6 @@ class TemplateManager:
 
     def create(self, model: TemplateModel) -> None:
         self.validtor.validate_tempalate_key(model.key)
-        # TODO: Validate font family of each label
-
         self.file_handler.create_template_dir(self.templates_path)
         template_Path = self.file_handler.create_template_structure(model.key)
         self.file_handler.copy_fonts(model, template_Path)
@@ -39,5 +39,5 @@ class TemplateManager:
     def get_all_templates(self) -> List[str]:
         return self.file_handler.get_all_templates()
 
-    def get_template_info(self, name: str) -> dict:
+    def get_template_info(self, name: str) -> Dict[str, Any]:
         return self.file_handler.get_template_info(name)

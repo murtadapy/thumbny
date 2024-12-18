@@ -65,6 +65,11 @@ To remove a template:
 thumbny delete -d '{"name": "template-name"}'
 ```
 
+To list all templates info:
+```bash
+thumbny info -d '{"name": "template-name"}'
+```
+
 To list all templates:
 ```bash
 thumbny templates
