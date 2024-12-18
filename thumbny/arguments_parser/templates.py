@@ -12,4 +12,5 @@ class TemplatesRunner(RunnerBase):
         return super().build(json_dict)
 
     def execute(self) -> None:
-        return super().execute()
+        command = TemplatesCommand()
+        return command.execute()

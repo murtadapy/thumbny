@@ -8,14 +8,14 @@ from thumbny.arguments_parser.create import CreateRunner
 # from thumbny.arguments_parser.delete import DeleteRunner
 from thumbny.arguments_parser.generate import GenerateRunner
 # from thumbny.arguments_parser.info import InfoRunner
-# from thumbny.arguments_parser.templates import TemplatesRunner
+from thumbny.arguments_parser.templates import TemplatesRunner
 
 
 COMMANDS = {"create": CreateRunner,
             # "delete": DeleteRunner,
             "generate": GenerateRunner,
             # "info": InfoRunner,
-            # "templates": TemplatesRunner,
+            "templates": TemplatesRunner,
             }
 
 
@@ -63,6 +63,6 @@ class Parser:
         # self._register_delete(subparser)
         self._register_generate(subparser)
         # self._register_info(subparser)
-        # self._register_templates(subparser)
+        self._register_templates(subparser)
         args = parser.parse_args()
         self._execute(args)
