@@ -1,7 +1,10 @@
 from typing import Tuple
+from typing import Optional
 
 from thumbny.base import CommandBase
 from thumbny.models import TemplateModel
+from thumbny.models import TagModel
+from thumbny.models import LabelModel
 from thumbny.models import FillerModel
 
 
@@ -24,7 +27,36 @@ class GenerateCommand(CommandBase):
 
     def _get_template(self) -> TemplateModel:
         template = self.tm.get_template_info(self.model.template_key)
-        return TemplateModel(**template)
+
+        labels = []
+        for label in template.get("labels", []):
+            position = TagModel(key=label.get("position").get("key"),
+                                value=label.get("position").get("value"))
+
+            label = LabelModel(key=label.get("key"),
+                               content=label.get("content"),
+                               position=position,
+                               alignment=label.get("alignment"),
+                               font_color=label.get("font-color"),
+                               font_size=label.get("font-size"),
+                               font_family=label.get("font-family"))
+            labels.append(label)
+
+        return TemplateModel(key=template.get("key"),
+                             name=template.get("name"),
+                             width=template.get("width"),
+                             height=template.get("height"),
+                             background_color=template.get(
+                                 "background-color"),
+                             labels=labels)
+
+    def _find_template(self,
+                       template: TemplateModel,
+                       label_key: str) -> Optional[LabelModel]:
+        for template_label in template.labels:
+            if template_label.key == label_key:
+                return template_label
+        return None
 
     def execute(self) -> None:
         filename = self._get_filename()
@@ -36,25 +68,28 @@ class GenerateCommand(CommandBase):
 
         draw = ImageDraw.Draw(image)
 
-        if template.font_family:
-            try:
-                font = ImageFont.truetype(template.font_family,
-                                          size=template.font_size)
-            except OSError:
-                print(f"Font wasn't found at {template.font_family}")
-        else:
-            font = ImageFont.load_default(size=template.font_size)
+        for label in self.model.labels:
+            template_label = self._find_template(template, label.key)
 
-        text_width = draw.textlength(self.title, font=font)
-        text_height = template.font_size
+            if template_label.font_family:
+                try:
+                    font = ImageFont.truetype(template_label.font_family,
+                                              size=template_label.font_size)
+                except OSError:
+                    print(f"Font wasn't found at {template_label.font_family}")
+            else:
+                font = ImageFont.load_default(size=template_label.font_size)
 
-        text_x = (template.width - text_width) / 2
-        text_y = (template.height - text_height) / 2
+            text_width = draw.textlength(label.value, font=font)
+            text_height = template_label.font_size
 
-        draw.text(xy=(text_x, text_y),
-                  text=self.title,
-                  fill=template.font_color,
-                  font=font)
+            text_x = (template.width - text_width) / 2
+            text_y = (template.height - text_height) / 2
+
+            draw.text(xy=(text_x, text_y),
+                      text=label.value,
+                      fill=template_label.font_color,
+                      font=font)
 
         image.save(f"{filename}.png")
         image.show()

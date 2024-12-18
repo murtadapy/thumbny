@@ -29,7 +29,7 @@ thumbny create -d \
     "width": 1280,
     "height": 720,
     "background-color": "#ffffff",
-    "labeles": [
+    "labels": [
         {
             "key": "title",
             "content": "Sample",
@@ -39,7 +39,7 @@ thumbny create -d \
             },
             "alignment": "center",
             "font-color": "#333333",
-            "font-size": "36"
+            "font-size": 36
         }
     ]
 }'
@@ -50,7 +50,7 @@ Use a template:
 thumbny generate -d \
 '{
   "name": "Test",
-  "template_key": "youtube",
+  "template-key": "youtube",
   "labels": [
     {
       "key": "title",

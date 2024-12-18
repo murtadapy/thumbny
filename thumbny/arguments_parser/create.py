@@ -14,7 +14,7 @@ class CreateRunner(RunnerBase):
     def build(self, json_dict: dict) -> TemplateModel:
         labels = []
 
-        for label in json_dict.get("labeles", []):
+        for label in json_dict.get("labels", []):
             position = TagModel(key=label.get("position", "key"),
                                 value=label.get("position", "value"))
 
