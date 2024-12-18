@@ -3,7 +3,6 @@ from typing import Optional
 
 from thumbny.base import CommandBase
 from thumbny.models import TemplateModel
-from thumbny.models import TagModel
 from thumbny.models import LabelModel
 from thumbny.models import FillerModel
 
@@ -27,28 +26,7 @@ class GenerateCommand(CommandBase):
 
     def _get_template(self) -> TemplateModel:
         template = self.tm.get_template_info(self.model.template_key)
-
-        labels = []
-        for label in template.get("labels", []):
-            position = TagModel(key=label.get("position").get("key"),
-                                value=label.get("position").get("value"))
-
-            label = LabelModel(key=label.get("key"),
-                               content=label.get("content"),
-                               position=position,
-                               alignment=label.get("alignment"),
-                               font_color=label.get("font-color"),
-                               font_size=label.get("font-size"),
-                               font_family=label.get("font-family"))
-            labels.append(label)
-
-        return TemplateModel(key=template.get("key"),
-                             name=template.get("name"),
-                             width=template.get("width"),
-                             height=template.get("height"),
-                             background_color=template.get(
-                                 "background-color"),
-                             labels=labels)
+        return TemplateModel.make(template)
 
     def _find_template(self,
                        template: TemplateModel,

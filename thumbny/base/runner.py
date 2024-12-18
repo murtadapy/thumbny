@@ -1,3 +1,5 @@
+from typing import Dict
+from typing import Any
 from typing import Optional
 
 import json
@@ -12,7 +14,7 @@ class RunnerBase:
             json_dict = json.loads(json_string)
             self.model = self.build(json_dict)
 
-    def build(self, json_dict: dict) -> dataclass:
+    def build(self, json_dict: Dict[str, Any]) -> dataclass:
         return NotImplementedError()
 
     def execute(self) -> None:

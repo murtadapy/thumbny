@@ -1,5 +1,9 @@
+from __future__ import annotations
+
+from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Any
 from dataclasses import dataclass
 
 from thumbny.models.shared import TagModel
@@ -21,6 +25,17 @@ class LabelModel:
     def __post_init__(self):
         check_required_fields(self)
 
+    @classmethod
+    def make(cls, data: Dict[str, Any]) -> LabelModel:
+        position = TagModel.make(data.get("position"))
+        return LabelModel(key=data.get("key"),
+                          content=data.get("content"),
+                          position=position,
+                          alignment=data.get("alignment"),
+                          font_color=data.get("font-color"),
+                          font_size=data.get("font-size"),
+                          font_family=data.get("font-family"))
+
 
 @dataclass
 class TemplateModel:
@@ -35,3 +50,17 @@ class TemplateModel:
         check_required_fields(self)
         check_spaces("key", self.key)
         check_hex_color("background_color", self.background_color)
+
+    @classmethod
+    def make(cls, data: Dict[str, Any]) -> TemplateModel:
+        labels = []
+        for label in data.get("labels", []):
+            label = LabelModel.make(label)
+            labels.append(label)
+
+        return cls(key=data.get("key"),
+                   name=data.get("name"),
+                   width=data.get("width"),
+                   height=data.get("height"),
+                   background_color=data.get("background-color"),
+                   labels=labels)
