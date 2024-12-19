@@ -28,7 +28,7 @@ thumbny create -d \
     "name": "sample thumbnail",
     "width": 1280,
     "height": 720,
-    "background-color": "#ffffff",
+    "background_color": "#ffffff",
     "labels": [
         {
             "key": "title",
@@ -38,8 +38,8 @@ thumbny create -d \
                 "value": "top-center"
             },
             "alignment": "center",
-            "font-color": "#333333",
-            "font-size": 36
+            "font_color": "#333333",
+            "font_size": 36
         }
     ]
 }'

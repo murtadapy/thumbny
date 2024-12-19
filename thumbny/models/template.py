@@ -32,9 +32,9 @@ class LabelModel:
                           content=data.get("content"),
                           position=position,
                           alignment=data.get("alignment"),
-                          font_color=data.get("font-color"),
-                          font_size=data.get("font-size"),
-                          font_family=data.get("font-family"))
+                          font_color=data.get("font_color"),
+                          font_size=data.get("font_size"),
+                          font_family=data.get("font_family"))
 
 
 @dataclass
@@ -62,5 +62,5 @@ class TemplateModel:
                    name=data.get("name"),
                    width=data.get("width"),
                    height=data.get("height"),
-                   background_color=data.get("background-color"),
+                   background_color=data.get("background_color"),
                    labels=labels)
