@@ -50,7 +50,7 @@ Use a template:
 thumbny generate -d \
 '{
   "name": "Test",
-  "template-key": "youtube",
+  "template_key": "youtube",
   "labels": [
     {
       "key": "title",
