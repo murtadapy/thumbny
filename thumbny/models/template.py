@@ -13,28 +13,53 @@ from thumbny.models.validation import check_hex_color
 
 
 @dataclass
+class PaddingModel:
+    top: int
+    bottom: int
+    left: int
+    right: int
+
+    def __post_init__(self) -> None:
+        check_required_fields(self)
+
+    @classmethod
+    def make(cls, data: Dict[str, Any]) -> PaddingModel:
+        return cls(top=data.get("top"),
+                   bottom=data.get("bottom"),
+                   left=data.get("left"),
+                   right=data.get("right"))
+
+
+@dataclass
 class LabelModel:
     key: str
     content: str
     position: TagModel
-    alignment: Optional[str]
+    padding: Optional[PaddingModel]
     font_color: str
     font_size: int
     font_family: Optional[str]
+    alignment: Optional[str]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         check_required_fields(self)
 
     @classmethod
     def make(cls, data: Dict[str, Any]) -> LabelModel:
         position = TagModel.make(data.get("position"))
-        return LabelModel(key=data.get("key"),
-                          content=data.get("content"),
-                          position=position,
-                          alignment=data.get("alignment"),
-                          font_color=data.get("font_color"),
-                          font_size=data.get("font_size"),
-                          font_family=data.get("font_family"))
+
+        padding = None
+        if data.get("padding"):
+            padding = PaddingModel.make(data.get("padding"))
+
+        return cls(key=data.get("key"),
+                   content=data.get("content"),
+                   position=position,
+                   padding=padding,
+                   font_color=data.get("font_color"),
+                   font_size=data.get("font_size"),
+                   font_family=data.get("font_family"),
+                   alignment=data.get("alignment"),)
 
 
 @dataclass
@@ -47,7 +72,7 @@ class TemplateModel:
     background_image: Optional[str]
     labels: List[LabelModel]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         check_required_fields(self)
         check_spaces("key", self.key)
         check_hex_color("background_color", self.background_color)

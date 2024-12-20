@@ -15,7 +15,7 @@ class FillerModel:
     template_key: str
     labels: List[TagModel]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         check_required_fields(self)
 
     @classmethod

@@ -82,10 +82,18 @@ class GenerateCommand(CommandBase):
                 }
 
                 x_pos_key, y_pos_key = template_label.position.value.split(",")
-                text_x = x_positions.get(x_pos_key, 0)
-                text_y = y_positions.get(y_pos_key, 0)
 
-            draw.text(xy=(text_x, text_y),
+                x_padding = 0
+                y_padding = 0
+                padding = template_label.padding
+                if padding:
+                    x_padding = padding.left - padding.right
+                    y_padding = padding.top - padding.bottom
+
+                x_text = x_positions.get(x_pos_key, 0) + x_padding
+                y_text = y_positions.get(y_pos_key, 0) + y_padding
+
+            draw.text(xy=(x_text, y_text),
                       text=label.value,
                       fill=template_label.font_color,
                       font=font)
