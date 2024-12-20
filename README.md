@@ -29,6 +29,7 @@ thumbny create -d \
     "width": 1280,
     "height": 720,
     "background_color": "#ffffff",
+    "background_image": "http://",
     "labels": [
         {
             "key": "title",

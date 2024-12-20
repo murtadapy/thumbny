@@ -49,6 +49,10 @@ class GenerateCommand(CommandBase):
 
         draw = ImageDraw.Draw(image)
 
+        if template.background_image:
+            background = Image.open(template.background_image)
+            image.paste(background, (0, 0))
+
         for label in self.model.labels:
             template_label = self._find_template(template, label.key)
 

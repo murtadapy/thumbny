@@ -44,6 +44,7 @@ class TemplateModel:
     width: int
     height: int
     background_color: str
+    background_image: Optional[str]
     labels: List[LabelModel]
 
     def __post_init__(self):
@@ -63,4 +64,5 @@ class TemplateModel:
                    width=data.get("width"),
                    height=data.get("height"),
                    background_color=data.get("background_color"),
+                   background_image=data.get("background_image"),
                    labels=labels)

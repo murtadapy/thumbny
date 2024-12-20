@@ -5,6 +5,8 @@ import os
 import re
 import json
 import shutil
+import requests
+from uuid import uuid4
 from dataclasses import asdict
 
 from thumbny.models import TemplateModel
@@ -15,6 +17,7 @@ if TYPE_CHECKING:
 
 
 FILE_NAME_REGEX = r'[^\\|^/]+$'
+LINK_REGEX = r'^http.+'
 
 
 class FileHandler:
@@ -33,9 +36,10 @@ class FileHandler:
         os.mkdir(template_path)
         os.mkdir(os.path.join(template_path, "assets"))
         os.mkdir(os.path.join(template_path, "assets", "fonts"))
+        os.mkdir(os.path.join(template_path, "assets", "images"))
         return template_path
 
-    def copy_fonts(self, model: TemplateModel, template_path: str) -> None:
+    def _copy_fonts(self, model: TemplateModel, template_path: str) -> None:
         for label in model.labels:
             if label.font_family:
                 font_name = re.search(FILE_NAME_REGEX,
@@ -48,6 +52,36 @@ class FileHandler:
 
                 shutil.copyfile(label.font_family, font_path)
                 label.font_family = font_path
+
+    def _copy_images(self, model: TemplateModel, template_path: str) -> None:
+        if re.match(LINK_REGEX, model.background_image):
+            image = requests.get(model.background_image)
+            image_name = str(uuid4())
+
+            image_path = os.path.join(template_path,
+                                      "assets",
+                                      "images",
+                                      image_name)
+
+            with open(image_path, "wb") as file:
+                file.write(image.content)
+
+            model.background_image = image_path
+
+        elif os.path.isfile(model.background_image):
+            image_name = re.search(FILE_NAME_REGEX,
+                                   model.background_image).group(0)
+
+            image_path = os.path.join(template_path,
+                                      "assets",
+                                      "images",
+                                      image_name)
+            shutil.copyfile(model.background_image, image_path)
+            model.background_image = image_path
+
+    def copy_assets(self, model: TemplateModel, template_path: str) -> None:
+        self._copy_fonts(model, template_path)
+        self._copy_images(model, template_path)
 
     def save_config(self, config: TemplateModel, template_path: str) -> None:
         config_path = os.path.join(template_path, "config.json")
