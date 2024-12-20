@@ -14,3 +14,7 @@ class FontNotFound(Exception):
 
 class NotValidFontExtension(Exception):
     ...
+
+
+class NotAbleToCreate(Exception):
+    ...

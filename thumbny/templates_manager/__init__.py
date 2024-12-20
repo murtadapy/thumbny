@@ -6,10 +6,12 @@ from typing import List
 
 import os
 import sys
+import traceback
 
 from thumbny.models import TemplateModel
 from thumbny.templates_manager.file_handler import FileHandler
 from thumbny.templates_manager.validator import Validator
+from thumbny.exceptions import NotAbleToCreate
 
 
 class TemplateManager:
@@ -30,8 +32,13 @@ class TemplateManager:
         self.validtor.validate_tempalate_key(model.key)
         self.file_handler.create_template_dir(self.templates_path)
         template_Path = self.file_handler.create_template_structure(model.key)
-        self.file_handler.copy_assets(model, template_Path)
-        self.file_handler.save_config(model, template_Path)
+
+        try:
+            self.file_handler.copy_assets(model, template_Path)
+            self.file_handler.save_config(model, template_Path)
+        except Exception:
+            self.file_handler.delete_template(model.key)
+            raise NotAbleToCreate(traceback.format_exc())
 
     def delete(self, name: str) -> None:
         self.file_handler.delete_template(name)
