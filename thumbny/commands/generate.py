@@ -5,6 +5,9 @@ from thumbny.base import CommandBase
 from thumbny.models import TemplateModel
 from thumbny.models import LabelModel
 from thumbny.models import FillerModel
+from thumbny.enums import PositionTypeEnum
+from thumbny.enums import XPositionEnum
+from thumbny.enums import YPositionEnum
 
 
 from PIL import Image
@@ -58,11 +61,25 @@ class GenerateCommand(CommandBase):
             else:
                 font = ImageFont.load_default(size=template_label.font_size)
 
-            text_width = draw.textlength(label.value, font=font)
-            text_height = template_label.font_size
+            width = draw.textlength(label.value, font=font)
+            height = template_label.font_size
 
-            text_x = (template.width - text_width) / 2
-            text_y = (template.height - text_height) / 2
+            if template_label.position.key == PositionTypeEnum.RELATIVE.value:
+                x_positions = {
+                    XPositionEnum.LEFT.value: 0,
+                    XPositionEnum.CENTER.value: (template.width - width) / 2,
+                    XPositionEnum.RIGHT.value: template.width - width
+                }
+
+                y_positions = {
+                    YPositionEnum.TOP.value: 0,
+                    YPositionEnum.CENTER.value: (template.height - height) / 2,
+                    YPositionEnum.BOTTOM.value: template.height - height
+                }
+
+                x_pos_key, y_pos_key = template_label.position.value.split(",")
+                text_x = x_positions.get(x_pos_key, 0)
+                text_y = y_positions.get(y_pos_key, 0)
 
             draw.text(xy=(text_x, text_y),
                       text=label.value,
