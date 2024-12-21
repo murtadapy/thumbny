@@ -54,30 +54,32 @@ class FileHandler:
                 label.font_family = font_path
 
     def _copy_images(self, model: TemplateModel, template_path: str) -> None:
-        if re.match(LINK_REGEX, model.background_image):
-            image = requests.get(model.background_image)
-            image_name = str(uuid4())
+        background_image = model.background_image
+        if background_image:
+            if re.match(LINK_REGEX, background_image):
+                image = requests.get(background_image)
+                image_name = str(uuid4())
 
-            image_path = os.path.join(template_path,
-                                      "assets",
-                                      "images",
-                                      image_name)
+                image_path = os.path.join(template_path,
+                                          "assets",
+                                          "images",
+                                          image_name)
 
-            with open(image_path, "wb") as file:
-                file.write(image.content)
+                with open(image_path, "wb") as file:
+                    file.write(image.content)
 
-            model.background_image = image_path
+                background_image = image_path
 
-        elif os.path.isfile(model.background_image):
-            image_name = re.search(FILE_NAME_REGEX,
-                                   model.background_image).group(0)
+            elif os.path.isfile(background_image):
+                image_name = re.search(FILE_NAME_REGEX,
+                                       background_image).group(0)
 
-            image_path = os.path.join(template_path,
-                                      "assets",
-                                      "images",
-                                      image_name)
-            shutil.copyfile(model.background_image, image_path)
-            model.background_image = image_path
+                image_path = os.path.join(template_path,
+                                          "assets",
+                                          "images",
+                                          image_name)
+                shutil.copyfile(background_image, image_path)
+                background_image = image_path
 
     def copy_assets(self, model: TemplateModel, template_path: str) -> None:
         self._copy_fonts(model, template_path)
