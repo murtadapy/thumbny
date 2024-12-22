@@ -16,9 +16,12 @@ from PIL import ImageFont
 
 
 class GenerateCommand(CommandBase):
-    def __init__(self, model: FillerModel) -> None:
+    def __init__(self,
+                 model: FillerModel,
+                 should_present: bool = False) -> None:
         super().__init__()
         self.model = model
+        self.should_present = should_present
 
     def _hex_to_rgb(self, hex_color: str) -> Tuple[int]:
         hex_color = hex_color.lstrip('#')
@@ -99,6 +102,8 @@ class GenerateCommand(CommandBase):
                       font=font)
 
         image.save(f"{filename}.png")
-        image.show()
+
+        if self.should_present:
+            image.show()
 
         print("The thumbnail has been created successfully")

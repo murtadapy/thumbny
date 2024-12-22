@@ -8,8 +8,8 @@ from thumbny.models import TemplateModel
 
 
 class CreateRunner(RunnerBase):
-    def __init__(self, json_string: Optional[str] = None) -> None:
-        super().__init__(json_string)
+    def __init__(self, arguments: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(arguments)
 
     def build(self, json_dict: Dict[str, Any]) -> TemplateModel:
         return TemplateModel.make(json_dict)

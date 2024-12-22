@@ -43,7 +43,7 @@ thumbny create -d \
               "bottom": 10,
               "left": 10,
               "right": 10
-            }
+            },
             "alignment": "center",
             "font_color": "#333333",
             "font_size": 36

@@ -41,6 +41,11 @@ class Parser:
         parser.add_argument("-d", "--data",
                             help="json data")
 
+        parser.add_argument("-s", "--show",
+                            help="present generated thumbnail",
+                            action='store_true',
+                            default=False)
+
     def _register_info(self, subparser: _SubParsersAction) -> None:
         parser: AP = subparser.add_parser("info", help="Info of a template")
 
@@ -53,7 +58,7 @@ class Parser:
     def _execute(self, args: Namespace) -> None:
         command_ref = COMMANDS.get(args.command)
         arguments = dict(args._get_kwargs())
-        command: runner = command_ref(json_string=arguments.get("data"))
+        command: runner = command_ref(arguments=arguments)
         command.execute()
 
     def parse(self) -> None:
