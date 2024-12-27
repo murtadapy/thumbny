@@ -24,11 +24,10 @@ class Validator:
             raise TemplateExist(f"{name} template already exists")
 
     def validate_font_family(self, font_family: Optional[str]) -> None:
-        if font_family and not os.path.isfile(font_family):
-            raise FontNotFound("Font not found")
+        if font_family:
+            if not os.path.isfile(font_family):
+                raise FontNotFound("Font not found")
 
-        if (font_family and
-            not font_family.endswith("ttf") and
-                not font_family.endswith("otf")):
-            raise NotValidFontExtension("Only ttf and otf extension"
-                                        "is supported")
+            if not font_family.endswith("ttf") and not font_family.endswith("otf"):
+                raise NotValidFontExtension("Only ttf and otf extension"
+                                            "is supported")
