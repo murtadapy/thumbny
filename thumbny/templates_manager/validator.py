@@ -1,3 +1,4 @@
+from typing import Optional
 from typing import TYPE_CHECKING
 
 import os
@@ -22,8 +23,12 @@ class Validator:
         if name in self.template_manager.get_all_templates():
             raise TemplateExist(f"{name} template already exists")
 
-    def validate_font_family(self, font_family: str) -> None:
+    def validate_font_family(self, font_family: Optional[str]) -> None:
         if font_family and not os.path.isfile(font_family):
             raise FontNotFound("Font not found")
-        if font_family and not font_family.endswith("ttf"):
-            raise NotValidFontExtension("Only ttf extension is supported")
+
+        if (font_family and
+            not font_family.endswith("ttf") and
+                not font_family.endswith("otf")):
+            raise NotValidFontExtension("Only ttf and otf extension"
+                                        "is supported")
