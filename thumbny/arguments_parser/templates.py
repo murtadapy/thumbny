@@ -11,5 +11,6 @@ class TemplatesRunner(RunnerBase):
         super().__init__(arguments)
 
     def execute(self) -> None:
+        """Execute the templates command"""
         command = TemplatesCommand()
         return command.execute()

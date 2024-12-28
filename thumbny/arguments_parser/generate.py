@@ -12,9 +12,18 @@ class GenerateRunner(RunnerBase):
         super().__init__(arguments)
 
     def build(self, json_dict: dict) -> FillerModel:
+        """Build data model
+
+        Args:
+            json_dict (Dict[str, Any]): json data
+
+        Returns:
+            FillerModel: data model
+        """
         return FillerModel.make(json_dict)
 
     def execute(self) -> None:
+        """Execute the generate command"""
         command = GenerateCommand(self.model,
                                   should_present=self.arguments.get("show"))
         command.execute()

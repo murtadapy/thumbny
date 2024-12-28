@@ -12,8 +12,17 @@ class CreateRunner(RunnerBase):
         super().__init__(arguments)
 
     def build(self, json_dict: Dict[str, Any]) -> TemplateModel:
+        """Build data model
+
+        Args:
+            json_dict (Dict[str, Any]): json data
+
+        Returns:
+            TemplateModel: data model
+        """
         return TemplateModel.make(json_dict)
 
     def execute(self) -> None:
+        """Execute the create command"""
         command = CreateCommand(self.model)
         command.execute()

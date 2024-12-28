@@ -17,7 +17,16 @@ class RunnerBase:
             self.model = self.build(json_dict)
 
     def build(self, json_dict: Dict[str, Any]) -> dataclass:
+        """Build data model
+
+        Args:
+            json_dict (Dict[str, Any]): json data
+
+        Returns:
+            dataclass: data model
+        """
         return NotImplementedError()
 
     def execute(self) -> None:
+        """Execute the command"""
         raise NotImplementedError()

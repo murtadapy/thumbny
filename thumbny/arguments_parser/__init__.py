@@ -21,6 +21,11 @@ COMMANDS = {"create": CreateRunner,
 
 class Parser:
     def _register_create(self, subparser: _SubParsersAction) -> None:
+        """Register create command
+
+        Args:
+            subparser (_SubParsersAction): subparser object
+        """
         parser: AP = subparser.add_parser("create",
                                           help="Create a new template")
 
@@ -28,6 +33,11 @@ class Parser:
                             help="json data")
 
     def _register_delete(self, subparser: _SubParsersAction) -> None:
+        """Register delete command
+
+        Args:
+            subparser (_SubParsersAction): subparser object
+        """
         parser: AP = subparser.add_parser("delete",
                                           help="Delete a template")
 
@@ -35,6 +45,11 @@ class Parser:
                             help="json data")
 
     def _register_generate(self, subparser: _SubParsersAction) -> None:
+        """Register generate command
+
+        Args:
+            subparser (_SubParsersAction): subparser object
+        """
         parser: AP = subparser.add_parser("generate",
                                           help="Generate a thumbnail")
 
@@ -47,21 +62,37 @@ class Parser:
                             default=False)
 
     def _register_info(self, subparser: _SubParsersAction) -> None:
+        """Register info command
+
+        Args:
+            subparser (_SubParsersAction): subparser object
+        """
         parser: AP = subparser.add_parser("info", help="Info of a template")
 
         parser.add_argument("-d", "--data",
                             help="json data")
 
     def _register_templates(self, subparser: _SubParsersAction) -> None:
+        """Regster templates command
+
+        Args:
+            subparser (_SubParsersAction): subparser object
+        """
         subparser.add_parser("templates", help="List all templates")
 
     def _execute(self, args: Namespace) -> None:
+        """Execute the given command
+
+        Args:
+            args (Namespace): arguments
+        """
         command_ref = COMMANDS.get(args.command)
         arguments = dict(args._get_kwargs())
         command: runner = command_ref(arguments=arguments)
         command.execute()
 
     def parse(self) -> None:
+        """Parse user input"""
         parser = argparse.ArgumentParser()
         subparser = parser.add_subparsers(dest="command", required=True)
         self._register_create(subparser)

@@ -12,8 +12,17 @@ class DeleteRunner(RunnerBase):
         super().__init__(arguments)
 
     def build(self, json_dict: Dict[str, Any]) -> TemplateNameModel:
+        """Build data model
+
+        Args:
+            json_dict (Dict[str, Any]): json data
+
+        Returns:
+            TemplateNameModel: data model
+        """
         return TemplateNameModel.make(json_dict)
 
     def execute(self) -> None:
+        """Execute the delete command"""
         command = DeleteCommand(self.model)
         return command.execute()
