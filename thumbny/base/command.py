@@ -6,4 +6,5 @@ class CommandBase:
         self.tm = TemplateManager()
 
     def execute() -> None:
+        """Execute the command"""
         raise NotImplementedError()

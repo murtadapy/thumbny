@@ -22,7 +22,7 @@ class CreateRunner(RunnerBase):
         """
         return TemplateModel.make(json_dict)
 
-    def execute(self) -> None:
-        """Execute the create command"""
+    def run(self) -> None:
+        """Run the create command"""
         command = CreateCommand(self.model)
         command.execute()

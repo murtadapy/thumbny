@@ -7,6 +7,7 @@ class TemplatesCommand(CommandBase):
         self.template_manager = TemplateManager()
 
     def execute(self) -> None:
+        """Execute the template command"""
         templates = self.template_manager.get_all_templates()
         if templates:
             print("List of templates:")

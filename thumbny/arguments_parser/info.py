@@ -22,7 +22,7 @@ class InfoRunner(RunnerBase):
         """
         return TemplateNameModel.make(json_dict)
 
-    def execute(self) -> None:
-        """Execute the info command"""
+    def run(self) -> None:
+        """Run the info command"""
         command = InfoCommand(self.model)
         return command.execute()

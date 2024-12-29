@@ -9,5 +9,6 @@ class CreateCommand(CommandBase):
         self.model = model
 
     def execute(self):
+        """Execute the create command"""
         self.tm.create(self.model)
         print(f"{self.model.key} template has been created successfully")

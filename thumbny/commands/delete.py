@@ -8,5 +8,6 @@ class DeleteCommand(CommandBase):
         self.model = model
 
     def execute(self) -> None:
+        """Execute the delete command"""
         self.tm.delete(self.model.name)
         print(f"{self.model.name} template has been deleted successfully")

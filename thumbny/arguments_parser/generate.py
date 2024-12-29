@@ -22,8 +22,8 @@ class GenerateRunner(RunnerBase):
         """
         return FillerModel.make(json_dict)
 
-    def execute(self) -> None:
-        """Execute the generate command"""
+    def run(self) -> None:
+        """Run the generate command"""
         command = GenerateCommand(self.model,
                                   should_present=self.arguments.get("show"))
         command.execute()

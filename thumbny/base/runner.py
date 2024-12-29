@@ -27,6 +27,6 @@ class RunnerBase:
         """
         return NotImplementedError()
 
-    def execute(self) -> None:
-        """Execute the command"""
+    def run(self) -> None:
+        """Run the command"""
         raise NotImplementedError()

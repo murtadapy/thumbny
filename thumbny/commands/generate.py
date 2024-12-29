@@ -24,25 +24,53 @@ class GenerateCommand(CommandBase):
         self.should_present = should_present
 
     def _hex_to_rgb(self, hex_color: str) -> Tuple[int]:
+        """Convert hex to rgb color
+
+        Args:
+            hex_color (str): hex color e.g. #FF0000
+
+        Returns:
+            Tuple[int]: RGB color
+        """
         hex_color = hex_color.lstrip('#')
         return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
     def _get_filename(self) -> str:
+        """Get file name out of model name
+
+        Returns:
+            str: fixed file name
+        """
         return self.model.name.replace(" ", "_")
 
     def _get_template(self) -> TemplateModel:
+        """Get template
+
+        Returns:
+            TemplateModel: template model object
+        """
         template = self.tm.get_template_info(self.model.template_key)
         return TemplateModel.make(template)
 
-    def _find_template(self,
-                       template: TemplateModel,
-                       label_key: str) -> Optional[LabelModel]:
-        for template_label in template.labels:
-            if template_label.key == label_key:
-                return template_label
+    def _get_label(self,
+                   template: TemplateModel,
+                   label_key: str) -> Optional[LabelModel]:
+        """Get label model
+
+        Args:
+            template (TemplateModel): template model object
+            label_key (str): label key
+
+        Returns:
+            Optional[LabelModel]: label model object
+        """
+        for label in template.labels:
+            if label.key == label_key:
+                return label
         return None
 
     def execute(self) -> None:
+        """Execute the generate command"""
         filename = self._get_filename()
         template = self._get_template()
 
@@ -57,21 +85,21 @@ class GenerateCommand(CommandBase):
             image.paste(background, (0, 0))
 
         for label in self.model.labels:
-            template_label = self._find_template(template, label.key)
+            label_model = self._get_label(template, label.key)
 
-            if template_label.font_family:
+            if label_model.font_family:
                 try:
-                    font = ImageFont.truetype(template_label.font_family,
-                                              size=template_label.font_size)
+                    font = ImageFont.truetype(label_model.font_family,
+                                              size=label_model.font_size)
                 except OSError:
-                    print(f"Font wasn't found at {template_label.font_family}")
+                    print(f"Font wasn't found at {label_model.font_family}")
             else:
-                font = ImageFont.load_default(size=template_label.font_size)
+                font = ImageFont.load_default(size=label_model.font_size)
 
             width = draw.textlength(label.value, font=font)
-            height = template_label.font_size
+            height = label_model.font_size
 
-            if template_label.position.key == PositionTypeEnum.RELATIVE.value:
+            if label_model.position.key == PositionTypeEnum.RELATIVE.value:
                 x_positions = {
                     XPositionEnum.LEFT.value: 0,
                     XPositionEnum.CENTER.value: (template.width - width) / 2,
@@ -84,11 +112,11 @@ class GenerateCommand(CommandBase):
                     YPositionEnum.BOTTOM.value: template.height - height
                 }
 
-                x_pos_key, y_pos_key = template_label.position.value.split(",")
+                x_pos_key, y_pos_key = label_model.position.value.split(",")
 
                 x_padding = 0
                 y_padding = 0
-                padding = template_label.padding
+                padding = label_model.padding
                 if padding:
                     x_padding = padding.left - padding.right
                     y_padding = padding.top - padding.bottom
@@ -98,7 +126,7 @@ class GenerateCommand(CommandBase):
 
             draw.text(xy=(x_text, y_text),
                       text=label.value,
-                      fill=template_label.font_color,
+                      fill=label_model.font_color,
                       font=font)
 
         image.save(f"{filename}.png")

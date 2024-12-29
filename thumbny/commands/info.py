@@ -14,6 +14,13 @@ class InfoCommand(CommandBase):
                     details: Dict[str, Any],
                     post_indent: int = 0,
                     indent: int = 20) -> None:
+        """Print details info
+
+        Args:
+            details (Dict[str, Any]): template dictionary info
+            post_indent (int, optional): post indentation.
+            indent (int, optional): indentation.
+        """
         for x, y in details.items():
             if isinstance(y, list):
                 for record in details[x]:
@@ -26,6 +33,7 @@ class InfoCommand(CommandBase):
                 print(f"{'':<{post_indent}} {x:<{indent}} {y}")
 
     def execute(self) -> None:
+        """Execute the info command"""
         details = self.tm.get_template_info(self.model.name)
         print("="*40)
         print(f"{'Key':<20} {'Value'}")

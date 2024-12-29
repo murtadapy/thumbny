@@ -3,7 +3,7 @@ from argparse import ArgumentParser as AP
 from argparse import _SubParsersAction
 from argparse import Namespace
 
-from thumbny.base import runner
+from thumbny.base import RunnerBase
 from thumbny.arguments_parser.create import CreateRunner
 from thumbny.arguments_parser.delete import DeleteRunner
 from thumbny.arguments_parser.generate import GenerateRunner
@@ -88,8 +88,8 @@ class Parser:
         """
         command_ref = COMMANDS.get(args.command)
         arguments = dict(args._get_kwargs())
-        command: runner = command_ref(arguments=arguments)
-        command.execute()
+        command: RunnerBase = command_ref(arguments=arguments)
+        command.run()
 
     def parse(self) -> None:
         """Parse user input"""

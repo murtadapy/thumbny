@@ -10,7 +10,7 @@ class TemplatesRunner(RunnerBase):
     def __init__(self, arguments: Optional[Dict[str, Any]] = None) -> None:
         super().__init__(arguments)
 
-    def execute(self) -> None:
-        """Execute the templates command"""
+    def run(self) -> None:
+        """Run the templates command"""
         command = TemplatesCommand()
         return command.execute()

@@ -22,7 +22,7 @@ class DeleteRunner(RunnerBase):
         """
         return TemplateNameModel.make(json_dict)
 
-    def execute(self) -> None:
-        """Execute the delete command"""
+    def run(self) -> None:
+        """Run the delete command"""
         command = DeleteCommand(self.model)
         return command.execute()
