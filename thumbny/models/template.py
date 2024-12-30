@@ -20,10 +20,19 @@ class PaddingModel:
     right: int
 
     def __post_init__(self) -> None:
+        """Post Checks"""
         check_required_fields(self)
 
     @classmethod
     def make(cls, data: Dict[str, Any]) -> PaddingModel:
+        """Create the model
+
+        Args:
+            data (Dict[str, Any]): dictionary data
+
+        Returns:
+            TagModel: model
+        """
         return cls(top=data.get("top"),
                    bottom=data.get("bottom"),
                    left=data.get("left"),
@@ -42,10 +51,19 @@ class LabelModel:
     alignment: Optional[str]
 
     def __post_init__(self) -> None:
+        """Post Checks"""
         check_required_fields(self)
 
     @classmethod
     def make(cls, data: Dict[str, Any]) -> LabelModel:
+        """Create the model
+
+        Args:
+            data (Dict[str, Any]): dictionary data
+
+        Returns:
+            TagModel: model
+        """
         position = TagModel.make(data.get("position"))
 
         padding = None

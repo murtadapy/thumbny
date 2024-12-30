@@ -16,10 +16,19 @@ class FillerModel:
     labels: List[TagModel]
 
     def __post_init__(self) -> None:
+        """Post Checks"""
         check_required_fields(self)
 
     @classmethod
     def make(cls, data: Dict[str, Any]) -> FillerModel:
+        """Create the model
+
+        Args:
+            data (Dict[str, Any]): dictionary data
+
+        Returns:
+            TagModel: model
+        """
         labels = []
         for label in data.get("labels", []):
             labels.append(TagModel.make(label))
