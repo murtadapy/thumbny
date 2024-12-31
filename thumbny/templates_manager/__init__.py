@@ -29,6 +29,14 @@ class TemplateManager:
         self.validtor = Validator(self, self.templates_path)
 
     def create(self, model: TemplateModel) -> None:
+        """Create new template
+
+        Args:
+            model (TemplateModel): template model
+
+        Raises:
+            NotAbleToCreate: raise not able to create if there was a mistake
+        """
         self.validtor.validate_tempalate_key(model.key)
         self.file_handler.create_template_dir(self.templates_path)
         template_Path = self.file_handler.create_template_structure(model.key)
@@ -41,10 +49,28 @@ class TemplateManager:
             raise NotAbleToCreate(traceback.format_exc())
 
     def delete(self, name: str) -> None:
+        """Delete template
+
+        Args:
+            name (str): template nmae
+        """
         self.file_handler.delete_template(name)
 
     def get_all_templates(self) -> List[str]:
+        """Get list of template names
+
+        Returns:
+            List[str]: lsit template names
+        """
         return self.file_handler.get_all_templates()
 
     def get_template_info(self, name: str) -> Dict[str, Any]:
+        """Get template info by the given name
+
+        Args:
+            name (str): template nmae
+
+        Returns:
+            Dict[str, Any]: template info
+        """
         return self.file_handler.get_template_info(name)
