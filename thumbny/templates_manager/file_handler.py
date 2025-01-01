@@ -28,10 +28,23 @@ class FileHandler:
         self.templates_path = templates_path
 
     def create_template_dir(self, templates_path: str) -> None:
+        """Create a template directory
+
+        Args:
+            templates_path (str): tempalte path
+        """
         if not os.path.exists(templates_path):
             os.makedirs(templates_path)
 
     def create_template_structure(self, key: str) -> str:
+        """Create a template directory structure
+
+        Args:
+            key (str): template key
+
+        Returns:
+            str: template path
+        """
         template_path = os.path.join(self.templates_path, key)
         os.mkdir(template_path)
         os.mkdir(os.path.join(template_path, "assets"))
@@ -40,6 +53,12 @@ class FileHandler:
         return template_path
 
     def _copy_fonts(self, model: TemplateModel, template_path: str) -> None:
+        """Copy fonts to the template directory
+
+        Args:
+            model (TemplateModel): model object
+            template_path (str): template path
+        """
         for label in model.labels:
             if label.font_family:
                 font_name = re.search(FILE_NAME_REGEX,
@@ -54,6 +73,12 @@ class FileHandler:
                 label.font_family = font_path
 
     def _copy_images(self, model: TemplateModel, template_path: str) -> None:
+        """Copy all images to template directory
+
+        Args:
+            model (TemplateModel): model
+            template_path (str): template path
+        """
         background_image = model.background_image
         if background_image:
             if re.match(LINK_REGEX, background_image):
@@ -82,6 +107,12 @@ class FileHandler:
                 background_image = image_path
 
     def copy_assets(self, model: TemplateModel, template_path: str) -> None:
+        """Copy all assets to the template directory
+
+        Args:
+            model (TemplateModel): model
+            template_path (str): template path
+        """
         self._copy_fonts(model, template_path)
         self._copy_images(model, template_path)
 
@@ -91,6 +122,14 @@ class FileHandler:
             json.dump(asdict(config), f, indent=4)
 
     def delete_template(self, name: str) -> None:
+        """Delete template
+
+        Args:
+            name (str): template name
+
+        Raises:
+            TemplateNotExist: template not exist
+        """
         try:
             path = os.path.join(self.templates_path, name)
             shutil.rmtree(path)
@@ -98,6 +137,11 @@ class FileHandler:
             raise TemplateNotExist(f"{name} template does not exist")
 
     def get_all_templates(self) -> List[str]:
+        """Get all templates
+
+        Returns:
+            List[str]: list of template names
+        """
         if not os.path.exists(self.templates_path):
             return []
 
@@ -105,6 +149,17 @@ class FileHandler:
                 if os.path.isdir(os.path.join(self.templates_path, element))]
 
     def get_template_info(self, name: str) -> dict:
+        """Get template info
+
+        Args:
+            name (str): template name
+
+        Raises:
+            TemplateNotExist: template not exist
+
+        Returns:
+            dict: template info
+        """
         path = os.path.join(self.templates_path, name, "config.json")
         if not os.path.isfile(path):
             raise TemplateNotExist(f"{name} template does not exist")
